@@ -3,17 +3,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>thucydidesTest</groupId>
-    <artifactId>thucydidesTest</artifactId>
+    <artifactId>RanorexTest</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Sample Thucydides project</name>
+    <name>RanorexTest</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <thucydides.version>0.9.275</thucydides.version>
         <thucydides.jbehave.version>0.9.275</thucydides.jbehave.version>
-        <webdriver.driver>chrome</webdriver.driver>
+        <webdriver.driver>firefox</webdriver.driver>
     </properties>
 
     <dependencies>
@@ -72,9 +72,13 @@
                             <name>webdriver.chrome.driver</name>
                             <value>${project.basedir}/chromedriver</value>
                         </property>
+                        <property>
+                            <name>thucydides.take.screenshots</name>
+                            <value>FOR_FAILURES</value>
+                        </property>
                     </systemProperties>
                     <forkMode>perthread</forkMode>
-                    <threadCount>4</threadCount>
+                    <threadCount>1</threadCount>
                     <argLine>-Dwebdriver.driver=${webdriver.driver}</argLine>
                 </configuration>
                 <executions>

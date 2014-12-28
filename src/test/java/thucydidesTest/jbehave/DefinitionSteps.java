@@ -5,6 +5,7 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
+
 import thucydidesTest.steps.EndUserSteps;
 
 public class DefinitionSteps {
@@ -12,19 +13,35 @@ public class DefinitionSteps {
     @Steps
     EndUserSteps endUser;
 
-    @Given("the user is on the Wikionary home page")
-    public void givenTheUserIsOnTheWikionaryHomePage() {
+    @Given("the user is on the Test page")
+    public void user_is_on_the_test_page() {
         endUser.is_the_home_page();
     }
 
-    @When("the user looks up the definition of the word '$word'")
-    public void whenTheUserLooksUpTheDefinitionOf(String word) {
-        endUser.looks_for(word);
+    @When("user add person with name '$John'")
+    public void when_user_add_first_name(String word) {
+        endUser.enter_first_name(word);
     }
+    
+    @When("enter second name '$asdf'")
+    public void enter_second_name(String word) {
+        endUser.enter_second_name(word);
+    }
+    
+    @When("press button '$Add'")
+    public void press_button_add(String buttonName) {
+        endUser.press_button(buttonName);
+    }
+    
+   
 
-    @Then("they should see the definition '$definition'")
-    public void thenTheyShouldSeeADefinitionContainingTheWords(String definition) {
-        endUser.should_see_definition(definition);
+    @Then("vip count должно быть нахуй '$count'")
+    public void vip_count(String count) {
+        endUser.get_vip_count(count);
+
     }
+    
+    
+    
 
 }
