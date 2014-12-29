@@ -1,5 +1,7 @@
 package thucydidesTest.pages;
 
+import java.util.Iterator;
+import java.util.Set;
 import net.thucydides.core.annotations.DefaultUrl;
 import org.openqa.selenium.By;
 import net.thucydides.core.pages.PageObject;
@@ -9,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import thucydidesTest.clasess.Person;
+import thucydidesTest.clasess.PersonBuilder;
 
 @DefaultUrl("http://www.ranorex.com/web-testing-examples/vip")
 public class TestPage extends PageObject {
@@ -43,7 +46,7 @@ public class TestPage extends PageObject {
     private WebElement fieldVipCount;
 
     //------------------------  * Methods *  ----------------------------
-    public void addPerson(Person person) throws InterruptedException {
+    public void addPerson(Person person){
 
         fieldFristName.sendKeys(person.getFirstName());
         fieldLastName.sendKeys(person.getLastName());
@@ -81,7 +84,7 @@ public class TestPage extends PageObject {
         fieldFristName.sendKeys(name);
     }
 
-    public void addSecondName(String name) {
+    public void addLastName(String name) {
         fieldLastName.sendKeys(name);
     }
 
@@ -89,12 +92,32 @@ public class TestPage extends PageObject {
         find(By.id(buttonName)).click();
     }
 
-    public void popup() {
-//        PageObject pob = waitForAbsenceOf("#popup");
-//        System.out.println("lsfdldslfsdjlfldslf + " + pob.getTitle());
-        
+    public String popup() {
+
         WebDriver driver = getDriver();
-       
+        String parentHandler = driver.getWindowHandle();
+        Set<String> allHendlers = driver.getWindowHandles();
+
+        for (String currentHandler : allHendlers) {
+            driver.switchTo().window(currentHandler);
+            if (driver.getTitle().equals("VIP Database")) {
+                break;
+            }
+        }
+
+        String message = driver.findElement(By.id("alertTextOK")).getText();
+
+        driver.close();
+
+        driver.switchTo().window(parentHandler);
+
+        return message;
+    }
+
+    public void addPerson(String firstName, String lastName) {
+        fieldFristName.sendKeys(firstName);
+        fieldLastName.sendKeys(lastName);
+        buttonAdd.click();
     }
 
 }

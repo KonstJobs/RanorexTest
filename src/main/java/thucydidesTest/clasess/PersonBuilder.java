@@ -11,11 +11,18 @@ package thucydidesTest.clasess;
  */
 public class PersonBuilder {
 
-    public static Person createDefPerson(String name, String lastName) {
+    public Person createDefPerson(String name, String lastName) {
 
-        return new Person.Builder("Fristname", "LastName")
-                .category(Category.POLITICS)
-                .gender(Gender.MALE)
-                .build();
+        return new Person.Builder(name, lastName)
+            .category(Category.POLITICS)
+            .gender(Gender.MALE)
+            .build();
+    }
+
+    public Person createPerson(String firstName, String lastName, Category category, Gender gender) {
+        return new Person.Builder(firstName, lastName)
+            .category(category)
+            .gender(gender)
+            .build();
     }
 }
