@@ -1,52 +1,17 @@
 package thucydidesTest.pages;
 
-import ch.lambdaj.function.convert.Converter;
 import net.thucydides.core.annotations.DefaultUrl;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import net.thucydides.core.pages.WebElementFacade;
-import net.thucydides.core.annotations.findby.FindBy;
 import net.thucydides.core.pages.PageObject;
-import java.util.List;
-import static ch.lambdaj.Lambda.convert;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import thucydidesTest.clasess.Person;
 
 @DefaultUrl("http://www.ranorex.com/web-testing-examples/vip")
-public class DictionaryPage extends PageObject {
-
-    @FindBy(name = "search")
-    private WebElementFacade searchTerms;
-
-    @FindBy(name = "go")
-    private WebElementFacade lookupButton;
-
-    public void enter_keywords(String keyword) {
-        searchTerms.type(keyword);
-    }
-
-    public void lookup_terms() {
-        lookupButton.click();
-    }
-
-    public List<String> getDefinitions() {
-        WebElementFacade definitionList = find(By.tagName("ol"));
-        List<WebElement> results = definitionList.findElements(By.tagName("li"));
-        return convert(results, toStrings());
-    }
-
-    private Converter<WebElement, String> toStrings() {
-        return new Converter<WebElement, String>() {
-            public String convert(WebElement from) {
-                return from.getText();
-            }
-        };
-    }
-    //--------------------------------
+public class TestPage extends PageObject {
 
     //------------------------  * Buttons *  ----------------------------
     @org.openqa.selenium.support.FindBy(id = "connect")
@@ -122,6 +87,14 @@ public class DictionaryPage extends PageObject {
 
     public void pressButton(String buttonName) {
         find(By.id(buttonName)).click();
+    }
+
+    public void popup() {
+//        PageObject pob = waitForAbsenceOf("#popup");
+//        System.out.println("lsfdldslfsdjlfldslf + " + pob.getTitle());
+        
+        WebDriver driver = getDriver();
+       
     }
 
 }

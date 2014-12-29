@@ -5,43 +5,43 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
+import thucydidesTest.steps.TestPageSteps;
 
-import thucydidesTest.steps.EndUserSteps;
-
-public class DefinitionSteps {
+public class JBehaveSteps {
 
     @Steps
-    EndUserSteps endUser;
+    TestPageSteps testSteps;
 
     @Given("the user is on the Test page")
     public void user_is_on_the_test_page() {
-        endUser.is_the_home_page();
+        testSteps.enter_main_page();
     }
 
     @When("user add person with name '$John'")
     public void when_user_add_first_name(String word) {
-        endUser.enter_first_name(word);
+        testSteps.enter_first_name(word);
     }
-    
+
     @When("enter second name '$asdf'")
     public void enter_second_name(String word) {
-        endUser.enter_second_name(word);
+        testSteps.enter_second_name(word);
     }
-    
+
     @When("press button '$Add'")
     public void press_button_add(String buttonName) {
-        endUser.press_button(buttonName);
+        testSteps.press_button(buttonName);
     }
-    
-   
 
-    @Then("vip count должно быть нахуй '$count'")
+    @Then("vip count should be '$count'")
     public void vip_count(String count) {
-        endUser.get_vip_count(count);
+        testSteps.get_vip_count(count);
 
     }
-    
-    
-    
+
+    @Then("should be popup")
+    public void test_popup() {
+        testSteps.test_popup();
+
+    }
 
 }
