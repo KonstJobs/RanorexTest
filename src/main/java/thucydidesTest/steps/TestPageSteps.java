@@ -21,7 +21,7 @@ public class TestPageSteps extends ScenarioSteps {
 
     @Step
     public void test_popup(String message) {
-        assertThat("Wrong popup messege", testPage.popup().endsWith(message));
+        assertThat("Wrong popup messege", testPage.popup().equals(message));
     }
 
     @Step
@@ -41,7 +41,7 @@ public class TestPageSteps extends ScenarioSteps {
 
     @Step
     public void get_vip_count(String count) {
-        assertThat("Vip count inst correct", testPage.getVIPcount().equals(count));
+        assertThat("Vip count isn't correct", testPage.getVIPcount().equals(count));
     }
 
     @Step
@@ -60,6 +60,14 @@ public class TestPageSteps extends ScenarioSteps {
         PersonBuilder personBuilder = new PersonBuilder();
         Person person = personBuilder.createPerson(firstName, lastName, category, gender);
         testPage.addPerson(person);
+    }
+
+    public void press_button_connection() {
+        testPage.pressButtonConnection();
+    }
+
+    public void check_sate(String state) {
+        assertThat("Connection fail", testPage.getConnectionSate(state).equalsIgnoreCase(state));
     }
 
 }

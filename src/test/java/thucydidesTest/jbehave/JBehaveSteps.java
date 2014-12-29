@@ -2,6 +2,7 @@ package thucydidesTest.jbehave;
 
 import java.util.Map;
 import net.thucydides.core.annotations.Steps;
+import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
@@ -17,9 +18,16 @@ public class JBehaveSteps {
     @Steps
     TestPageSteps testSteps;
 
-    @Given("the user is on the Test page")
+    //------------------ ***  @Given *** ---------------------------
+    @Given("the user is on the test page")
     public void user_is_on_the_test_page() {
         testSteps.enter_main_page();
+    }
+
+    //------------------ ***  @When *** ---------------------------
+    @When("user press button {Disconnect|Connect}")
+    public void user_press_button_connection() {
+        testSteps.press_button_connection();
     }
 
     @When("user add person with name '$John'")
@@ -28,53 +36,68 @@ public class JBehaveSteps {
     }
 
     @When("user {enter|type} first name <firstname>")
+    @Alias("user {enter|type} first name '$firsname'")
     public void enter_first_name(@Named("firstname") String name) {
         testSteps.enter_first_name(name);
     }
 
     @When("user {enter|type} last name <lastname>")
+    @Alias("user {enter|type} last name '$lastname'")
     public void enter_last_name(@Named("lastname") String name) {
         testSteps.enter_last_name(name);
     }
 
-    @When("{press|click} {button |} '$button'") //@When("the {item |}{price|cost} is $price")
+    @When("user {press|click} {button |} '$button'")
     public void press_button_add(String buttonName) {
         testSteps.press_button(buttonName);
     }
 
-    //--------------------------------------
+    @When("user {add|create} persons with category and gender $table")
+    public void add_def_persons(ExamplesTable table) {
+        for (Map<String, String> row : table.getRows()) {
+
+            String firstName = row.get("firstName");
+            String lastName = row.get("lastName");
+            String cat = row.get("category");
+            String gen = row.get("gender");
+
+            Category category = Category.valueOf(cat.toUpperCase());
+            Gender gender = Gender.valueOf(gen.toUpperCase());
+
+            testSteps.add_def_persons(firstName, lastName, category, gender);
+        }
+    }
+
+    @When("user {add|create} persons $table")
+    public void add_persons(ExamplesTable table) {
+        for (Map<String, String> row : table.getRows()) {
+
+            String firstName = row.get("firstName");
+            String lastName = row.get("lastName");
+            testSteps.add_def_persons(firstName, lastName);
+
+        }
+    }
+
+    //------------------ ***  @Then *** ---------------------------
     @Then("vip count should be '$count'")
     public void vip_count(String count) {
         testSteps.get_vip_count(count);
 
     }
 
-    //---------------------------------------------
     @Then("should be popup with message '$message'")
     public void test_popup(String message) {
         testSteps.test_popup(message);
-
     }
 
-    @When("user add default persons $table")
-    public void add_def_persons(ExamplesTable table) {
-        for (Map<String, String> row : table.getRows()) {
-            String firstName = row.get("firstName");
-            String lastName = row.get("lastName");
-            testSteps.add_def_persons(firstName, lastName);
-        }
+     @Then("state of database should be '$state'")
+    public void check_sate(String state) {
+        testSteps.check_sate(state);
     }
-
-    @When("user add persons $table")
-    public void add_persons(ExamplesTable table) {
-        for (Map<String, String> row : table.getRows()) {
-            String firstName = row.get("firstName");
-            String lastName = row.get("lastName");
-            Category category = Category.valueOf(row.get("category"));
-            Gender gender = Gender.valueOf(row.get("gender"));
-            
-            testSteps.add_def_persons(firstName, lastName, category, gender);
-        }
-    }
+    
+    
+    
+    
 
 }

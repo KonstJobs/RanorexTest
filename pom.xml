@@ -76,10 +76,10 @@
                             <name>thucydides.take.screenshots</name>
                             <value>FOR_FAILURES</value>
                         </property>
-                        <property>
+<!--                        <property>
                             <name>webdriver.firefox.profile</name>
                             <value>C:/Users/Конст/AppData/Roaming/Mozilla/Firefox/Profiles/tbzg4vfh.Automation</value>
-                        </property>
+                        </property>-->
                     </systemProperties>
                     <forkMode>perthread</forkMode>
                     <threadCount>1</threadCount>

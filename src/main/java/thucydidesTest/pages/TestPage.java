@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import thucydidesTest.clasess.Person;
 import thucydidesTest.clasess.PersonBuilder;
@@ -17,36 +18,39 @@ import thucydidesTest.clasess.PersonBuilder;
 public class TestPage extends PageObject {
 
     //------------------------  * Buttons *  ----------------------------
-    @org.openqa.selenium.support.FindBy(id = "connect")
+    @FindBy(id = "connect")
     private WebElement buttonConnect;
 
-    @org.openqa.selenium.support.FindBy(id = "Load")
+    @FindBy(id = "Load")
     private WebElement buttonLoad;
 
-    @org.openqa.selenium.support.FindBy(id = "Save")
+    @FindBy(id = "Save")
     private WebElement buttonSave;
 
-    @org.openqa.selenium.support.FindBy(id = "Clear")
+    @FindBy(id = "Clear")
     private WebElement buttonClear;
 
-    @org.openqa.selenium.support.FindBy(id = "Add")
+    @FindBy(id = "Add")
     private WebElement buttonAdd;
 
     //------------------------  * Fields *  ----------------------------
-    @org.openqa.selenium.support.FindBy(id = "FirstName")
+    @FindBy(id = "FirstName")
     private WebElement fieldFristName;
 
-    @org.openqa.selenium.support.FindBy(id = "LastName")
+    @FindBy(id = "LastName")
     private WebElement fieldLastName;
 
-    @org.openqa.selenium.support.FindBy(id = "Category")
+    @FindBy(id = "Category")
     private WebElement selectElement;
 
-    @org.openqa.selenium.support.FindBy(id = "count")
+    @FindBy(id = "count")
     private WebElement fieldVipCount;
 
+    @FindBy(id = "connection")
+    private WebElement fieldConnection;
+
     //------------------------  * Methods *  ----------------------------
-    public void addPerson(Person person){
+    public void addPerson(Person person) {
 
         fieldFristName.sendKeys(person.getFirstName());
         fieldLastName.sendKeys(person.getLastName());
@@ -105,10 +109,9 @@ public class TestPage extends PageObject {
             }
         }
 
-        String message = driver.findElement(By.id("alertTextOK")).getText();
-
+        String xpath = "//div[@id='alertTextOK' or @id='alertTextOKCancel']";
+        String message = driver.findElement(By.xpath(xpath)).getText();
         driver.close();
-
         driver.switchTo().window(parentHandler);
 
         return message;
@@ -118,6 +121,14 @@ public class TestPage extends PageObject {
         fieldFristName.sendKeys(firstName);
         fieldLastName.sendKeys(lastName);
         buttonAdd.click();
+    }
+
+    public void pressButtonConnection() {
+        buttonConnect.click();
+    }
+
+    public String getConnectionSate(String state) {
+       return fieldConnection.getText();
     }
 
 }
