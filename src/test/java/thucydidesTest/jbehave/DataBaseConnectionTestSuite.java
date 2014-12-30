@@ -11,6 +11,6 @@ import net.thucydides.jbehave.ThucydidesJUnitStory;
  *
  * @author Konst
  */
-public class ButtonConnectTestSuite extends ThucydidesJUnitStory{
+public class DataBaseConnectionTestSuite extends ThucydidesJUnitStory{
     
 }

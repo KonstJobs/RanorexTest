@@ -29,6 +29,11 @@ public class JBehaveSteps {
     public void user_press_button_connection() {
         testSteps.press_button_connection();
     }
+    
+      @When("user {press|click} button '$button' in popup")
+    public void user_press_button_in_popup(String button) {
+        testSteps.press_button_in_popup(button);
+    }
 
     @When("user add person with name '$John'")
     public void when_user_add_first_name(String word) {
@@ -60,7 +65,7 @@ public class JBehaveSteps {
             String lastName = row.get("lastName");
             String cat = row.get("category");
             String gen = row.get("gender");
-
+            
             Category category = Category.valueOf(cat.toUpperCase());
             Gender gender = Gender.valueOf(gen.toUpperCase());
 

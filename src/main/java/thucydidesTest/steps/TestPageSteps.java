@@ -3,10 +3,12 @@ package thucydidesTest.steps;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.steps.ScenarioSteps;
 import static org.hamcrest.MatcherAssert.assertThat;
+import org.openqa.selenium.WebDriver;
 import thucydidesTest.clasess.Category;
 import thucydidesTest.clasess.Gender;
 import thucydidesTest.clasess.Person;
 import thucydidesTest.clasess.PersonBuilder;
+import thucydidesTest.pages.PopupPage;
 import thucydidesTest.pages.TestPage;
 
 public class TestPageSteps extends ScenarioSteps {
@@ -19,9 +21,17 @@ public class TestPageSteps extends ScenarioSteps {
         testPage.open();
     }
 
+//    @Step
+//    public void test_popup(String message) {
+//        WebDriver popupDriver = testPage.switchToPopUp();
+//        assertThat("Wrong popup messege",
+//            testPage.getPopupMessage(popupDriver).equals(message));
+//    }
     @Step
     public void test_popup(String message) {
-        assertThat("Wrong popup messege", testPage.popup().equals(message));
+        PopupPage popupPage = testPage.switchToPopUp();
+        assertThat("Wrong popup messege",
+            popupPage.getPopupMessage().equals(message));
     }
 
     @Step
@@ -68,6 +78,11 @@ public class TestPageSteps extends ScenarioSteps {
 
     public void check_sate(String state) {
         assertThat("Connection fail", testPage.getConnectionSate(state).equalsIgnoreCase(state));
+    }
+
+    public void press_button_in_popup(String button) {
+        PopupPage popupPage = testPage.switchToPopUp();
+        popupPage.pressPopupButton(button);
     }
 
 }

@@ -1,7 +1,8 @@
 package thucydidesTest.pages;
 
-import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.thucydides.core.annotations.DefaultUrl;
 import org.openqa.selenium.By;
 import net.thucydides.core.pages.PageObject;
@@ -10,12 +11,16 @@ import java.util.regex.Pattern;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import thucydidesTest.clasess.Person;
-import thucydidesTest.clasess.PersonBuilder;
 
 @DefaultUrl("http://www.ranorex.com/web-testing-examples/vip")
 public class TestPage extends PageObject {
+
+    String parentHandler;
 
     //------------------------  * Buttons *  ----------------------------
     @FindBy(id = "connect")
@@ -96,27 +101,6 @@ public class TestPage extends PageObject {
         find(By.id(buttonName)).click();
     }
 
-    public String popup() {
-
-        WebDriver driver = getDriver();
-        String parentHandler = driver.getWindowHandle();
-        Set<String> allHendlers = driver.getWindowHandles();
-
-        for (String currentHandler : allHendlers) {
-            driver.switchTo().window(currentHandler);
-            if (driver.getTitle().equals("VIP Database")) {
-                break;
-            }
-        }
-
-        String xpath = "//div[@id='alertTextOK' or @id='alertTextOKCancel']";
-        String message = driver.findElement(By.xpath(xpath)).getText();
-        driver.close();
-        driver.switchTo().window(parentHandler);
-
-        return message;
-    }
-
     public void addPerson(String firstName, String lastName) {
         fieldFristName.sendKeys(firstName);
         fieldLastName.sendKeys(lastName);
@@ -128,7 +112,73 @@ public class TestPage extends PageObject {
     }
 
     public String getConnectionSate(String state) {
-       return fieldConnection.getText();
+
+        // WebDriver driver = getDriver();
+        new WebDriverWait(getDriver(), 5).
+            until(ExpectedConditions.
+                textToBePresentInElement(fieldConnection, state));
+
+        return fieldConnection.getText();
     }
 
+//    // ---------------------- *** WORK WITH POPUP *** --------------------------
+//    public WebDriver switchToPopUp() {
+//
+//        WebDriver popupDriver = null;
+//        parentHandler = driver.getWindowHandle();
+//        Set<String> allHendlers = driver.getWindowHandles();
+//        for (String currentHandler : allHendlers) {
+//            popupDriver = driver.switchTo().window(currentHandler);
+//            if (popupDriver.getTitle().equals("VIP Database")) {
+//                break;
+//            }
+//        }
+//        return popupDriver;
+//    }
+//
+//    public void pressPopupButton(WebDriver popupDriver, String button) {
+//        String xpath = "//button[text()='" + button + "']";
+//        popupDriver.findElement(By.xpath(xpath)).click();
+//        driver.switchTo().window(parentHandler);
+//    }
+//
+//    public String getPopupMessage(WebDriver popupDriver) {
+//        String xpath = "//div[@id='alertTextOK' or @id='alertTextOKCancel']";
+//        String text = popupDriver.findElement(By.xpath(xpath)).getText();
+//        driver.close();
+//        driver.switchTo().window(parentHandler);
+//        return text;
+//    }
+//    /*------------------------------------------------------------------------*/
+
+    
+    // ---------------------- *** WORK WITH POPUP *** --------------------------
+    public PopupPage switchToPopUp() {
+
+        WebDriver popupDriver = null;
+        parentHandler = getDriver().getWindowHandle();
+        Set<String> allHendlers = getDriver().getWindowHandles();
+        for (String currentHandler : allHendlers) {
+            popupDriver = getDriver().switchTo().window(currentHandler);
+            if (popupDriver.getTitle().equals("VIP Database")) {
+                break;
+            }
+        }
+        return new PopupPage(popupDriver);
+    }
+
+//    public void pressPopupButton(WebDriver popupDriver, String button) {
+//        String xpath = "//button[text()='" + button + "']";
+//        popupDriver.findElement(By.xpath(xpath)).click();
+//        getDriver().switchTo().window(parentHandler);
+//    }
+//
+//    public String getPopupMessage(WebDriver popupDriver) {
+//        String xpath = "//div[@id='alertTextOK' or @id='alertTextOKCancel']";
+//        String text = popupDriver.findElement(By.xpath(xpath)).getText();
+//        //getDriver().close();
+//        getDriver().switchTo().window(parentHandler);
+//        return text;
+//    }
+    /*------------------------------------------------------------------------*/
 }

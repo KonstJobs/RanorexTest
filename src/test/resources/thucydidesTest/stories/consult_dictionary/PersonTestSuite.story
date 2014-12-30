@@ -1,10 +1,19 @@
+Scenario: Creating several persons with category and gender
+Given the user is on the test page
+When user add persons with category and gender
+|firstName|lastName|category|gender|
+|alskdf|sfdsd|Movie|Male|
+|sdfsd|dsfdsf|sport|male|
+|sdfsd|dsfdsf|sport|male|
+|asdf|dsfdssdfdsfdf|music|male|
+Then vip count should be '2'
+
 Scenario: Creating person only with first and last name
 Given the user is on the test page
 When user enter first name 'John'
 When user enter last name 'Biber'
 When user click button 'Add'
 Then vip count should be '1'
-
 
 Scenario: Creating several persons with first and last name
 Given the user is on the test page
@@ -15,20 +24,6 @@ When user create persons
 |Gommer|Simpson|
 |Bart|Simpson|
 Then vip count should be '4'
-
-
-
-Scenario: Creating several persons with category and gender
-Given the user is on the test page
-When user create persons with category and gender
-|firstName|lastName|category|gender|
-|Larry|page|music|male|
-|Larry|page|movie|female|
-|Larry|page|science|female|
-|Larry|page|sport|male|
-|Larry|page|politics|female|
-Then vip count should be '5'
-
 
 Scenario: Creating person with empty first name
 Given the user is on the test page
