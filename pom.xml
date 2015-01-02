@@ -78,7 +78,8 @@
                         </property>
                         <property>
                             <name>webdriver.firefox.profile</name>
-                            <value>C:/Users/Конст/AppData/Roaming/Mozilla/Firefox/Profiles/tbzg4vfh.Automation</value>
+<!--                            <value>C:/Users/Конст/AppData/Roaming/Mozilla/Firefox/Profiles/tbzg4vfh.Automation</value>-->
+                            <value>D:\FirefoxProfile</value>
                         </property>
                     </systemProperties>
                     <forkMode>perthread</forkMode>

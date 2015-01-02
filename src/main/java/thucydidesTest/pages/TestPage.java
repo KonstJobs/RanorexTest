@@ -1,5 +1,6 @@
 package thucydidesTest.pages;
 
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,6 +9,7 @@ import org.openqa.selenium.By;
 import net.thucydides.core.pages.PageObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.thucydides.core.pages.WebElementFacade;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -113,47 +115,15 @@ public class TestPage extends PageObject {
 
     public String getConnectionSate(String state) {
 
-        // WebDriver driver = getDriver();
         new WebDriverWait(getDriver(), 5).
-            until(ExpectedConditions.
-                textToBePresentInElement(fieldConnection, state));
+                until(ExpectedConditions.
+                        textToBePresentInElement(fieldConnection, state));
 
         return fieldConnection.getText();
     }
 
-//    // ---------------------- *** WORK WITH POPUP *** --------------------------
-//    public WebDriver switchToPopUp() {
-//
-//        WebDriver popupDriver = null;
-//        parentHandler = driver.getWindowHandle();
-//        Set<String> allHendlers = driver.getWindowHandles();
-//        for (String currentHandler : allHendlers) {
-//            popupDriver = driver.switchTo().window(currentHandler);
-//            if (popupDriver.getTitle().equals("VIP Database")) {
-//                break;
-//            }
-//        }
-//        return popupDriver;
-//    }
-//
-//    public void pressPopupButton(WebDriver popupDriver, String button) {
-//        String xpath = "//button[text()='" + button + "']";
-//        popupDriver.findElement(By.xpath(xpath)).click();
-//        driver.switchTo().window(parentHandler);
-//    }
-//
-//    public String getPopupMessage(WebDriver popupDriver) {
-//        String xpath = "//div[@id='alertTextOK' or @id='alertTextOKCancel']";
-//        String text = popupDriver.findElement(By.xpath(xpath)).getText();
-//        driver.close();
-//        driver.switchTo().window(parentHandler);
-//        return text;
-//    }
-//    /*------------------------------------------------------------------------*/
-
-    
     // ---------------------- *** WORK WITH POPUP *** --------------------------
-    public PopupPage switchToPopUp() {
+    public WebDriver switchToPopUp() {
 
         WebDriver popupDriver = null;
         parentHandler = getDriver().getWindowHandle();
@@ -164,21 +134,34 @@ public class TestPage extends PageObject {
                 break;
             }
         }
-        return new PopupPage(popupDriver);
+        return popupDriver;
     }
 
-//    public void pressPopupButton(WebDriver popupDriver, String button) {
-//        String xpath = "//button[text()='" + button + "']";
-//        popupDriver.findElement(By.xpath(xpath)).click();
-//        getDriver().switchTo().window(parentHandler);
-//    }
-//
-//    public String getPopupMessage(WebDriver popupDriver) {
-//        String xpath = "//div[@id='alertTextOK' or @id='alertTextOKCancel']";
-//        String text = popupDriver.findElement(By.xpath(xpath)).getText();
-//        //getDriver().close();
-//        getDriver().switchTo().window(parentHandler);
-//        return text;
-//    }
+    public void pressPopupButton(WebDriver popupDriver, String button) {
+        String xpath = "//button[text()='" + button + "']";
+        popupDriver.findElement(By.xpath(xpath)).click();
+        getDriver().switchTo().window(parentHandler);
+    }
+
+    public String getPopupMessage(WebDriver popupDriver) {
+        String xpath = "//div[@id='alertTextOK' or @id='alertTextOKCancel']";
+        String text = popupDriver.findElement(By.xpath(xpath)).getText();
+        // getDriver().close();
+        getDriver().switchTo().window(parentHandler);
+        return text;
+    }
+
     /*------------------------------------------------------------------------*/
+    /*---------------------- *** AssertPesons *** --------------------*/
+    public void findPerson(int index) {
+
+        String xpath = "//tr[td/input[@id='VIP']][" + index + "]/td[text()]";
+        List<WebElementFacade> list = findAll(By.xpath(xpath));
+
+        for (WebElementFacade elem : list) {
+            System.out.println("ELEM : " + elem.getText());
+        }
+
+    }
+
 }

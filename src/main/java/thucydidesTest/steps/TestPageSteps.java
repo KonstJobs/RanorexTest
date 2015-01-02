@@ -21,19 +21,6 @@ public class TestPageSteps extends ScenarioSteps {
         testPage.open();
     }
 
-//    @Step
-//    public void test_popup(String message) {
-//        WebDriver popupDriver = testPage.switchToPopUp();
-//        assertThat("Wrong popup messege",
-//            testPage.getPopupMessage(popupDriver).equals(message));
-//    }
-    @Step
-    public void test_popup(String message) {
-        PopupPage popupPage = testPage.switchToPopUp();
-        assertThat("Wrong popup messege",
-            popupPage.getPopupMessage().equals(message));
-    }
-
     @Step
     public void enter_first_name(String name) {
         testPage.addFirstName(name);
@@ -66,23 +53,46 @@ public class TestPageSteps extends ScenarioSteps {
         testPage.addPerson(person);
     }
 
+    @Step
     public void add_def_persons(String firstName, String lastName, Category category, Gender gender) {
         PersonBuilder personBuilder = new PersonBuilder();
         Person person = personBuilder.createPerson(firstName, lastName, category, gender);
         testPage.addPerson(person);
     }
 
+    @Step
     public void press_button_connection() {
         testPage.pressButtonConnection();
     }
 
-    public void check_sate(String state) {
+    @Step
+    public void check_database_sate(String state) {
         assertThat("Connection fail", testPage.getConnectionSate(state).equalsIgnoreCase(state));
     }
 
+    @Step
+    public void test_popup(String message) {
+        WebDriver popupDriver = testPage.switchToPopUp();
+        assertThat("Wrong popup messege",
+                testPage.getPopupMessage(popupDriver).equals(message));
+    }
+
+    @Step
+    public void get_popup_message(String message) {
+        WebDriver popupDriver = testPage.switchToPopUp();
+        assertThat("Wrong popup messege",
+                testPage.getPopupMessage(popupDriver).equals(message));
+    }
+
+    @Step
     public void press_button_in_popup(String button) {
-        PopupPage popupPage = testPage.switchToPopUp();
-        popupPage.pressPopupButton(button);
+        WebDriver popupDriver = testPage.switchToPopUp();
+        testPage.pressPopupButton(popupDriver, button);
+    }
+
+    @Step
+    public void person_should_be() {
+        testPage.findPerson(1);
     }
 
 }

@@ -4,9 +4,9 @@ When user add persons with category and gender
 |firstName|lastName|category|gender|
 |alskdf|sfdsd|Movie|Male|
 |sdfsd|dsfdsf|sport|male|
-|sdfsd|dsfdsf|sport|male|
+|sdfsd|dsfdsf|music|male|
 |asdf|dsfdssdfdsfdf|music|male|
-Then vip count should be '2'
+Then vip count should be '4'
 
 Scenario: Creating person only with first and last name
 Given the user is on the test page

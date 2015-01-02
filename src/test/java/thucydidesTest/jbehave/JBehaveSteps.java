@@ -29,8 +29,8 @@ public class JBehaveSteps {
     public void user_press_button_connection() {
         testSteps.press_button_connection();
     }
-    
-      @When("user {press|click} button '$button' in popup")
+
+    @When("user {press|click} button '$button' in popup")
     public void user_press_button_in_popup(String button) {
         testSteps.press_button_in_popup(button);
     }
@@ -65,7 +65,7 @@ public class JBehaveSteps {
             String lastName = row.get("lastName");
             String cat = row.get("category");
             String gen = row.get("gender");
-            
+
             Category category = Category.valueOf(cat.toUpperCase());
             Gender gender = Gender.valueOf(gen.toUpperCase());
 
@@ -92,17 +92,18 @@ public class JBehaveSteps {
     }
 
     @Then("should be popup with message '$message'")
-    public void test_popup(String message) {
-        testSteps.test_popup(message);
+    public void get_popup_message(String message) {
+        testSteps.get_popup_message(message);
     }
 
-     @Then("state of database should be '$state'")
-    public void check_sate(String state) {
-        testSteps.check_sate(state);
+    @Then("state of database should be '$state'")
+    public void check_database_sate(String state) {
+        testSteps.check_database_sate(state);
     }
-    
-    
-    
-    
+
+    @Then("person should be")
+    public void person_should_be() {
+        testSteps.person_should_be();
+    }
 
 }
