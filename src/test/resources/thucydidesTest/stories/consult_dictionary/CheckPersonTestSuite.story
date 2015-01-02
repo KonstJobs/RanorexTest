@@ -1,5 +1,6 @@
-Scenario: Testing assertino persons
+Scenario: Testing assertion persons
 Given the user is on the test page
 When user click 'Load'
-Then person should be
+Then vip count should be '6'
 Then state of database should be 'Online'
+

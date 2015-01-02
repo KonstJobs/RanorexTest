@@ -14,6 +14,43 @@ public class Person {
     private final Category category;
     private final Gender gender;
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + (this.firstName != null ? this.firstName.hashCode() : 0);
+        hash = 41 * hash + (this.lastName != null ? this.lastName.hashCode() : 0);
+        hash = 41 * hash + (this.category != null ? this.category.hashCode() : 0);
+        hash = 41 * hash + (this.gender != null ? this.gender.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        
+        final Person other = (Person) obj;
+        if ((this.firstName == null) ? (other.firstName != null) : !this.firstName.equals(other.firstName)) {
+            return false;
+        }
+        if ((this.lastName == null) ? (other.lastName != null) : !this.lastName.equals(other.lastName)) {
+            return false;
+        }
+        if (this.category != other.category) {
+            return false;
+        }
+        if (this.gender != other.gender) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
     public static class Builder {
 
         private final String firstName;

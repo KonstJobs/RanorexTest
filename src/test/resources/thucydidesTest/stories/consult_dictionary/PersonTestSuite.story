@@ -25,6 +25,7 @@ When user create persons
 |Bart|Simpson|
 Then vip count should be '4'
 
+
 Scenario: Creating person with empty first name
 Given the user is on the test page
 When user enter first name ''
@@ -37,3 +38,4 @@ When user enter first name 'Bob'
 When user enter last name ''
 When user click button 'Add'
 Then should be popup with message 'Please specify 'Last Name' value'
+

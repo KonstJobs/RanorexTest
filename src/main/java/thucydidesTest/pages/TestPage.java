@@ -86,9 +86,7 @@ public class TestPage extends PageObject {
         Pattern p = Pattern.compile("\\d+");
         Matcher m = p.matcher(fieldVipCount.getText());
         m.find();
-        //  Integer vipCount = Integer.parseInt(m.group());
-
-        return m.group();
+              return m.group();
     }
 
     public void addFirstName(String name) {
@@ -103,7 +101,7 @@ public class TestPage extends PageObject {
         find(By.id(buttonName)).click();
     }
 
-    public void addPerson(String firstName, String lastName) {
+    public void addDefaultPerson(String firstName, String lastName) {
         fieldFristName.sendKeys(firstName);
         fieldLastName.sendKeys(lastName);
         buttonAdd.click();
@@ -148,20 +146,26 @@ public class TestPage extends PageObject {
         String text = popupDriver.findElement(By.xpath(xpath)).getText();
         // getDriver().close();
         getDriver().switchTo().window(parentHandler);
+        System.out.println("MESSAGE ***  " + text);
         return text;
     }
 
     /*------------------------------------------------------------------------*/
+    
+    
+    
     /*---------------------- *** AssertPesons *** --------------------*/
     public void findPerson(int index) {
 
-        String xpath = "//tr[td/input[@id='VIP']][" + index + "]/td[text()]";
-        List<WebElementFacade> list = findAll(By.xpath(xpath));
+        for (int i = 1; i <= index; i++) {
+            String xpath = "//tr[td/input[@id='VIP']][" + i + "]/td[text()]";
+            List<WebElementFacade> list = findAll(By.xpath(xpath));
 
-        for (WebElementFacade elem : list) {
-            System.out.println("ELEM : " + elem.getText());
+            for (WebElementFacade elem : list) {
+                System.out.println("ELEM : " + elem.getText());
+            }
+            System.out.println("NEXT ________");
         }
-
     }
 
 }

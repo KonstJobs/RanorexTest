@@ -73,6 +73,25 @@ public class JBehaveSteps {
         }
     }
 
+    @When("user {add|create} persons $count times with category and gender $table")
+    public void add_number_of_persons(String count, ExamplesTable table) {
+        for (int i = 0; i < Integer.parseInt(count); i++) {
+            System.out.println("COUNT****");
+            for (Map<String, String> row : table.getRows()) {
+
+                String firstName = row.get("firstName");
+                String lastName = row.get("lastName");
+                String cat = row.get("category");
+                String gen = row.get("gender");
+
+                Category category = Category.valueOf(cat.toUpperCase());
+                Gender gender = Gender.valueOf(gen.toUpperCase());
+
+                testSteps.add_def_persons(firstName, lastName, category, gender);
+            }
+        }
+    }
+
     @When("user {add|create} persons $table")
     public void add_persons(ExamplesTable table) {
         for (Map<String, String> row : table.getRows()) {
@@ -101,7 +120,7 @@ public class JBehaveSteps {
         testSteps.check_database_sate(state);
     }
 
-    @Then("person should be")
+    @Then("person should be in the database")
     public void person_should_be() {
         testSteps.person_should_be();
     }

@@ -43,7 +43,7 @@ public class TestPageSteps extends ScenarioSteps {
 
     @Step
     public void add_persons(String firstName, String lastName) {
-        testPage.addPerson(firstName, lastName);
+        testPage.addDefaultPerson(firstName, lastName);
     }
 
     @Step
@@ -92,7 +92,7 @@ public class TestPageSteps extends ScenarioSteps {
 
     @Step
     public void person_should_be() {
-        testPage.findPerson(1);
+        testPage.findPerson(6);
     }
 
 }
