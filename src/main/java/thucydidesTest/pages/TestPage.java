@@ -22,6 +22,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import thucydidesTest.clasess.Person;
+import thucydidesTest.clasess.SimplePerson;
 
 @DefaultUrl("http://www.ranorex.com/web-testing-examples/vip")
 public class TestPage extends PageObject {
@@ -61,7 +62,12 @@ public class TestPage extends PageObject {
     private WebElement fieldConnection;
 
     //------------------------  * Methods *  ----------------------------
-    public void addPerson(Person person) {
+    public void addPerson(SimplePerson person) {
+
+        System.out.println("PERSON-----");
+        System.out.println(person.getFirstName());
+        System.out.println(person.getLastName());
+        System.out.println(person.getGender());
 
         fieldFristName.sendKeys(person.getFirstName());
         fieldLastName.sendKeys(person.getLastName());
@@ -70,7 +76,7 @@ public class TestPage extends PageObject {
         buttonAdd.click();
     }
 
-    private void selectCategory(Person person) {
+    private void selectCategory(SimplePerson person) {
 
         Select select = new Select(selectElement);
         String category = person.getCategory().getModifiedCategory();
@@ -78,7 +84,7 @@ public class TestPage extends PageObject {
 
     }
 
-    private void selectGender(Person person) {
+    private void selectGender(SimplePerson person) {
 
         String gender = person.getGender().getModifiedGender();
         find(By.xpath("//input[@value='" + gender + "']")).click();
@@ -172,23 +178,49 @@ public class TestPage extends PageObject {
         }
     }
 
-    public void isDisplayInDataBase(String name) {
+    public boolean isDisplayInDataBase(String parametr, String value) {
 
-      List<Map<String, String>> listPersons =  findAllPersonsInDatabase();
+        List<Map<String, String>> listPersons = findAllPersonsInDatabase();
 
-            
+        for (Map<String, String> allMaps : listPersons) {
+            if (allMaps.get(parametr).equals(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean comparePersons(SimplePerson person) {
+
+        List<Map<String, String>> listInDatabase = findAllPersonsInDatabase();
+        List<SimplePerson> listPersons = new ArrayList<SimplePerson>();
+
+        for (Map<String, String> listInDatabase1 : listInDatabase) {
+            listPersons.add(new SimplePerson(listInDatabase1));
+        }
+
+        for (SimplePerson listPerson : listPersons) {
+            if (listPerson.equals(person)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public List<Map<String, String>> findAllPersonsInDatabase() {
 
         List<Map<String, String>> listPersons = new ArrayList<Map<String, String>>();
-        Map<String, String> mapPersons = new HashMap<String, String>();
+        Map<String, String> mapPersons;
 
-        List<WebElementFacade> allVips = findAll(By.xpath("//tr[td/input[@id='VIP']]"));
-        System.out.println("COUNT PERSONS: ____ " + allVips.size());
+        List<WebElementFacade> allVips = findAll(By.
+                xpath("//tr[td/input[@id='VIP']]"));
 
         for (int i = 1; i <= allVips.size(); i++) {
-            List<WebElementFacade> elem = findAll(By.xpath("//tr[td/input[@id='VIP']][" + i + "]/td[text()]"));
+            List<WebElementFacade> elem = findAll(By.
+                    xpath("//tr[td/input[@id='VIP']][" + i + "]/td[text()]"));
+
+            mapPersons = new HashMap<String, String>();
 
             mapPersons.put("First Name", elem.get(0).getText());
             mapPersons.put("Last Name", elem.get(1).getText());
@@ -196,12 +228,8 @@ public class TestPage extends PageObject {
             mapPersons.put("Category", elem.get(3).getText());
 
             listPersons.add(mapPersons);
-
         }
-
-        System.out.println("COUNT PERSONS IN MAP : " + listPersons.size());
-
-        return null;
+        return listPersons;
     }
 
 }

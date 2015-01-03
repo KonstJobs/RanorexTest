@@ -1,5 +1,8 @@
 package thucydidesTest.jbehave;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import net.thucydides.core.annotations.Steps;
 import org.jbehave.core.annotations.Alias;
@@ -10,6 +13,7 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import thucydidesTest.clasess.Category;
 import thucydidesTest.clasess.Gender;
+import thucydidesTest.clasess.SimplePerson;
 
 import thucydidesTest.steps.TestPageSteps;
 
@@ -57,42 +61,38 @@ public class JBehaveSteps {
         testSteps.press_button(buttonName);
     }
 
-    @When("user {add|create} persons with category and gender $table")
+    @When("user {add|create} persons with category and gender:$table")
     public void add_def_persons(ExamplesTable table) {
-        for (Map<String, String> row : table.getRows()) {
+        List<Map<String, String>> listPersons = createObjects(table);
+        for (Map<String, String> listPerson : listPersons) {
 
-            String firstName = row.get("firstName");
-            String lastName = row.get("lastName");
-            String cat = row.get("category");
-            String gen = row.get("gender");
+            String firstName = listPerson.get("First Name");
+            String lastName = listPerson.get("Last Name");
+            Category category = Category.valueOf(listPerson.get("Category").toUpperCase());
+            Gender gender = Gender.valueOf(listPerson.get("Gender").toUpperCase());
 
-            Category category = Category.valueOf(cat.toUpperCase());
-            Gender gender = Gender.valueOf(gen.toUpperCase());
-
-            testSteps.add_def_persons(firstName, lastName, category, gender);
+            testSteps.add_person_to_database(firstName, lastName, category, gender);
         }
+
     }
 
-    @When("user {add|create} persons $count times with category and gender $table")
-    public void add_number_of_persons(String count, ExamplesTable table) {
+    @When("user {add|create} persons '$count' times with category and gender:$table")
+    public void add_a_lot_of_persons(String count, ExamplesTable table) {
+        List<Map<String, String>> listPersons = createObjects(table);
         for (int i = 0; i < Integer.parseInt(count); i++) {
-            System.out.println("COUNT****");
-            for (Map<String, String> row : table.getRows()) {
+            for (Map<String, String> listPerson : listPersons) {
 
-                String firstName = row.get("firstName");
-                String lastName = row.get("lastName");
-                String cat = row.get("category");
-                String gen = row.get("gender");
+                String firstName = listPerson.get("First Name");
+                String lastName = listPerson.get("Last Name");
+                Category category = Category.valueOf(listPerson.get("Category").toUpperCase());
+                Gender gender = Gender.valueOf(listPerson.get("Gender").toUpperCase());
 
-                Category category = Category.valueOf(cat.toUpperCase());
-                Gender gender = Gender.valueOf(gen.toUpperCase());
-
-                testSteps.add_def_persons(firstName, lastName, category, gender);
+                testSteps.add_person_to_database(firstName, lastName, category, gender);
             }
         }
     }
 
-    @When("user {add|create} persons $table")
+    @When("user create persons: $table")
     public void add_persons(ExamplesTable table) {
         for (Map<String, String> row : table.getRows()) {
 
@@ -123,6 +123,49 @@ public class JBehaveSteps {
     @Then("person should be in the database")
     public void person_should_be() {
         testSteps.person_should_be();
+    }
+//------------------- *** Assertion Persons *** ----------------------------
+
+    @Then("person with '$parametr' '$value' should display in database")
+    public void person_should_display(String parametr, String value) {
+        testSteps.person_should_display_in_database(parametr, value);
+    }
+
+    @Then("following persons should display in database:$table")
+    public void persons_should_display(ExamplesTable table) {
+
+        List<Map<String, String>> listPersons = createObjects(table);
+        for (Map<String, String> listPerson : listPersons) {
+
+            String firstName = listPerson.get("First Name");
+            String lastName = listPerson.get("Last Name");
+            Category category = Category.valueOf(listPerson.get("Category").toUpperCase());
+            Gender gender = Gender.valueOf(listPerson.get("Gender").toUpperCase());
+
+            testSteps.persons_should_display_in_database(firstName, lastName, category, gender);
+        }
+
+    }
+
+    // -------------------------------------------------------------------------
+    public List<Map<String, String>> createObjects(ExamplesTable table) {
+
+        System.out.println("START CREATING");
+        List<Map<String, String>> listPersons = new ArrayList<Map<String, String>>();
+        Map<String, String> mapPersons;
+
+        for (Map<String, String> row : table.getRows()) {
+            mapPersons = new HashMap<String, String>();
+
+            mapPersons.put("First Name", row.get("First Name"));
+            mapPersons.put("Last Name", row.get("Last Name"));
+            mapPersons.put("Category", row.get("Category"));
+            mapPersons.put("Gender", row.get("Gender"));
+
+            listPersons.add(mapPersons);
+        }
+        System.out.println("END CREATING");
+        return listPersons;
     }
 
 }

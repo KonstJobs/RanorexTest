@@ -11,6 +11,6 @@ import net.thucydides.jbehave.ThucydidesJUnitStory;
  *
  * @author Konst
  */
-public class ButtonSaveTestSuite extends ThucydidesJUnitStory{
-    
+public class ButtonSaveTestSuite {
+
 }

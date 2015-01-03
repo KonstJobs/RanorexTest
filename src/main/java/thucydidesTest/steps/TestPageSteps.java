@@ -8,6 +8,7 @@ import thucydidesTest.clasess.Category;
 import thucydidesTest.clasess.Gender;
 import thucydidesTest.clasess.Person;
 import thucydidesTest.clasess.PersonBuilder;
+import thucydidesTest.clasess.SimplePerson;
 import thucydidesTest.pages.PopupPage;
 import thucydidesTest.pages.TestPage;
 
@@ -38,7 +39,8 @@ public class TestPageSteps extends ScenarioSteps {
 
     @Step
     public void get_vip_count(String count) {
-        assertThat("Vip count isn't correct", testPage.getVIPcount().equals(count));
+        String number = testPage.getVIPcount();
+        assertThat("Actual number of vips: " + number + "", number.equals(count));
     }
 
     @Step
@@ -50,13 +52,12 @@ public class TestPageSteps extends ScenarioSteps {
     public void add_def_persons(String firstName, String lastName) {
         PersonBuilder personBuilder = new PersonBuilder();
         Person person = personBuilder.createDefPerson(firstName, lastName);
-        testPage.addPerson(person);
+        //  testPage.addPerson(person);
     }
 
     @Step
-    public void add_def_persons(String firstName, String lastName, Category category, Gender gender) {
-        PersonBuilder personBuilder = new PersonBuilder();
-        Person person = personBuilder.createPerson(firstName, lastName, category, gender);
+    public void add_person_to_database(String firstName, String lastName, Category cat, Gender gen) {
+        SimplePerson person = new SimplePerson(firstName, lastName, cat, gen);
         testPage.addPerson(person);
     }
 
@@ -93,6 +94,18 @@ public class TestPageSteps extends ScenarioSteps {
     @Step
     public void person_should_be() {
         testPage.findPerson(6);
+    }
+
+    @Step
+    public void person_should_display_in_database(String parametr, String value) {
+        assertThat("fucking assertion", testPage.isDisplayInDataBase(parametr, value));
+
+    }
+
+    public void persons_should_display_in_database(String firstName, String lastName, Category cat, Gender gen) {
+        SimplePerson person = new SimplePerson(firstName, lastName, cat, gen);
+        assertThat("one more fucking assertion",
+                testPage.comparePersons(person));
     }
 
 }
