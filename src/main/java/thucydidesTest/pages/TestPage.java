@@ -1,6 +1,9 @@
 package thucydidesTest.pages;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +26,6 @@ import thucydidesTest.clasess.Person;
 @DefaultUrl("http://www.ranorex.com/web-testing-examples/vip")
 public class TestPage extends PageObject {
 
-    
     String parentHandler;
 
     //------------------------  * Buttons *  ----------------------------
@@ -86,9 +88,12 @@ public class TestPage extends PageObject {
     public String getVIPcount() {
 
         Pattern p = Pattern.compile("\\d+");
-        Matcher m = p.matcher(fieldVipCount.getText());
+
+        String text = fieldVipCount.getText();
+        System.out.println("TEXT: " + text);
+        Matcher m = p.matcher(text);
         m.find();
-              return m.group();
+        return m.group();
     }
 
     public void addFirstName(String name) {
@@ -153,9 +158,6 @@ public class TestPage extends PageObject {
     }
 
     /*------------------------------------------------------------------------*/
-    
-    
-    
     /*---------------------- *** AssertPesons *** --------------------*/
     public void findPerson(int index) {
 
@@ -168,6 +170,38 @@ public class TestPage extends PageObject {
             }
             System.out.println("NEXT ________");
         }
+    }
+
+    public void isDisplayInDataBase(String name) {
+
+      List<Map<String, String>> listPersons =  findAllPersonsInDatabase();
+
+            
+    }
+
+    public List<Map<String, String>> findAllPersonsInDatabase() {
+
+        List<Map<String, String>> listPersons = new ArrayList<Map<String, String>>();
+        Map<String, String> mapPersons = new HashMap<String, String>();
+
+        List<WebElementFacade> allVips = findAll(By.xpath("//tr[td/input[@id='VIP']]"));
+        System.out.println("COUNT PERSONS: ____ " + allVips.size());
+
+        for (int i = 1; i <= allVips.size(); i++) {
+            List<WebElementFacade> elem = findAll(By.xpath("//tr[td/input[@id='VIP']][" + i + "]/td[text()]"));
+
+            mapPersons.put("First Name", elem.get(0).getText());
+            mapPersons.put("Last Name", elem.get(1).getText());
+            mapPersons.put("Gender", elem.get(2).getText());
+            mapPersons.put("Category", elem.get(3).getText());
+
+            listPersons.add(mapPersons);
+
+        }
+
+        System.out.println("COUNT PERSONS IN MAP : " + listPersons.size());
+
+        return null;
     }
 
 }
