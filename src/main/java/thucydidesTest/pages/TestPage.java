@@ -10,6 +10,7 @@ import net.thucydides.core.pages.PageObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.thucydides.core.pages.WebElementFacade;
+import net.thucydides.core.webdriver.stubs.WindowStub;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,6 +23,7 @@ import thucydidesTest.clasess.Person;
 @DefaultUrl("http://www.ranorex.com/web-testing-examples/vip")
 public class TestPage extends PageObject {
 
+    
     String parentHandler;
 
     //------------------------  * Buttons *  ----------------------------
