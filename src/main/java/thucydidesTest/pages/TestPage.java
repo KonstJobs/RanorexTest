@@ -5,24 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.thucydides.core.annotations.DefaultUrl;
 import org.openqa.selenium.By;
 import net.thucydides.core.pages.PageObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.thucydides.core.pages.WebElementFacade;
-import net.thucydides.core.webdriver.stubs.WindowStub;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import thucydidesTest.clasess.Person;
-import thucydidesTest.clasess.SimplePerson;
 
 @DefaultUrl("http://www.ranorex.com/web-testing-examples/vip")
 public class TestPage extends PageObject {
@@ -62,12 +57,7 @@ public class TestPage extends PageObject {
     private WebElement fieldConnection;
 
     //------------------------  * Methods *  ----------------------------
-    public void addPerson(SimplePerson person) {
-
-        System.out.println("PERSON-----");
-        System.out.println(person.getFirstName());
-        System.out.println(person.getLastName());
-        System.out.println(person.getGender());
+    public void addPerson(Person person) {
 
         fieldFristName.sendKeys(person.getFirstName());
         fieldLastName.sendKeys(person.getLastName());
@@ -76,7 +66,7 @@ public class TestPage extends PageObject {
         buttonAdd.click();
     }
 
-    private void selectCategory(SimplePerson person) {
+    private void selectCategory(Person person) {
 
         Select select = new Select(selectElement);
         String category = person.getCategory().getModifiedCategory();
@@ -84,7 +74,7 @@ public class TestPage extends PageObject {
 
     }
 
-    private void selectGender(SimplePerson person) {
+    private void selectGender(Person person) {
 
         String gender = person.getGender().getModifiedGender();
         find(By.xpath("//input[@value='" + gender + "']")).click();
@@ -94,9 +84,7 @@ public class TestPage extends PageObject {
     public String getVIPcount() {
 
         Pattern p = Pattern.compile("\\d+");
-
         String text = fieldVipCount.getText();
-        System.out.println("TEXT: " + text);
         Matcher m = p.matcher(text);
         m.find();
         return m.group();
@@ -159,7 +147,6 @@ public class TestPage extends PageObject {
         String text = popupDriver.findElement(By.xpath(xpath)).getText();
         // getDriver().close();
         getDriver().switchTo().window(parentHandler);
-        System.out.println("MESSAGE ***  " + text);
         return text;
     }
 
@@ -170,11 +157,8 @@ public class TestPage extends PageObject {
         for (int i = 1; i <= index; i++) {
             String xpath = "//tr[td/input[@id='VIP']][" + i + "]/td[text()]";
             List<WebElementFacade> list = findAll(By.xpath(xpath));
-
             for (WebElementFacade elem : list) {
-                System.out.println("ELEM : " + elem.getText());
             }
-            System.out.println("NEXT ________");
         }
     }
 
@@ -190,16 +174,16 @@ public class TestPage extends PageObject {
         return false;
     }
 
-    public boolean comparePersons(SimplePerson person) {
+    public boolean comparePersons(Person person) {
 
         List<Map<String, String>> listInDatabase = findAllPersonsInDatabase();
-        List<SimplePerson> listPersons = new ArrayList<SimplePerson>();
+        List<Person> listPersons = new ArrayList<Person>();
 
         for (Map<String, String> listInDatabase1 : listInDatabase) {
-            listPersons.add(new SimplePerson(listInDatabase1));
+            listPersons.add(new Person(listInDatabase1));
         }
 
-        for (SimplePerson listPerson : listPersons) {
+        for (Person listPerson : listPersons) {
             if (listPerson.equals(person)) {
                 return true;
             }
@@ -230,6 +214,16 @@ public class TestPage extends PageObject {
             listPersons.add(mapPersons);
         }
         return listPersons;
+    }
+
+    public boolean isButtonDisabled(String button) {
+
+        WebElementFacade but = find(By.id(button));
+        String attr = but.getAttribute("disabled");
+        if (attr == null) {
+            return false;
+        }
+        return attr.equals("true");
     }
 
 }
