@@ -5,10 +5,12 @@
  */
 package thucydidesTest.jbehave;
 
+import net.thucydides.jbehave.ThucydidesJUnitStory;
+
 /**
  *
  * @author Konst
  */
-public class ButtonDeleteTestSuite {
+public class ButtonDeleteTestSuite extends ThucydidesJUnitStory{
     
 }

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.thucydides.core.annotations.DefaultUrl;
 import org.openqa.selenium.By;
 import net.thucydides.core.pages.PageObject;
@@ -28,15 +30,6 @@ public class TestPage extends PageObject {
     @FindBy(id = "connect")
     private WebElement buttonConnect;
 
-    @FindBy(id = "Load")
-    private WebElement buttonLoad;
-
-    @FindBy(id = "Save")
-    private WebElement buttonSave;
-
-    @FindBy(id = "Clear")
-    private WebElement buttonClear;
-
     @FindBy(id = "Add")
     private WebElement buttonAdd;
 
@@ -57,8 +50,7 @@ public class TestPage extends PageObject {
     private WebElement fieldConnection;
 
     //------------------------  * Methods *  ----------------------------
-    public void addPerson(Person person) {
-
+    public void addDefPerson(Person person) {
         fieldFristName.sendKeys(person.getFirstName());
         fieldLastName.sendKeys(person.getLastName());
         selectCategory(person);
@@ -102,12 +94,6 @@ public class TestPage extends PageObject {
         find(By.id(buttonName)).click();
     }
 
-    public void addDefaultPerson(String firstName, String lastName) {
-        fieldFristName.sendKeys(firstName);
-        fieldLastName.sendKeys(lastName);
-        buttonAdd.click();
-    }
-
     public void pressButtonConnection() {
         buttonConnect.click();
     }
@@ -119,6 +105,16 @@ public class TestPage extends PageObject {
                         textToBePresentInElement(fieldConnection, state));
 
         return fieldConnection.getText();
+    }
+
+    public boolean isButtonDisabled(String button) {
+
+        WebElementFacade but = find(By.id(button));
+        String attr = but.getAttribute("disabled");
+        if (attr == null) {
+            return false;
+        }
+        return attr.equals("true");
     }
 
     // ---------------------- *** WORK WITH POPUP *** --------------------------
@@ -145,24 +141,17 @@ public class TestPage extends PageObject {
     public String getPopupMessage(WebDriver popupDriver) {
         String xpath = "//div[@id='alertTextOK' or @id='alertTextOKCancel']";
         String text = popupDriver.findElement(By.xpath(xpath)).getText();
-        // getDriver().close();
         getDriver().switchTo().window(parentHandler);
         return text;
     }
 
-    /*------------------------------------------------------------------------*/
-    /*---------------------- *** AssertPesons *** --------------------*/
-    public void findPerson(int index) {
-
-        for (int i = 1; i <= index; i++) {
-            String xpath = "//tr[td/input[@id='VIP']][" + i + "]/td[text()]";
-            List<WebElementFacade> list = findAll(By.xpath(xpath));
-            for (WebElementFacade elem : list) {
-            }
-        }
+    public void closePopup(WebDriver popupDriver) {
+        popupDriver.close();
+        getDriver().switchTo().window(parentHandler);
     }
 
-    public boolean isDisplayInDataBase(String parametr, String value) {
+    /*---------------------- *** WORK WITH PERSONS *** --------------------*/
+    public boolean isPersonDisplayInDataBase(String parametr, String value) {
 
         List<Map<String, String>> listPersons = findAllPersonsInDatabase();
 
@@ -215,15 +204,4 @@ public class TestPage extends PageObject {
         }
         return listPersons;
     }
-
-    public boolean isButtonDisabled(String button) {
-
-        WebElementFacade but = find(By.id(button));
-        String attr = but.getAttribute("disabled");
-        if (attr == null) {
-            return false;
-        }
-        return attr.equals("true");
-    }
-
 }

@@ -13,7 +13,7 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import thucydidesTest.clasess.Category;
 import thucydidesTest.clasess.Gender;
-import thucydidesTest.clasess.SimplePerson;
+import thucydidesTest.clasess.Person;
 
 import thucydidesTest.steps.TestPageSteps;
 
@@ -92,13 +92,13 @@ public class JBehaveSteps {
         }
     }
 
-    @When("user create persons: $table")
+    @When("user create persons:$table")
     public void add_persons(ExamplesTable table) {
         for (Map<String, String> row : table.getRows()) {
 
-            String firstName = row.get("firstName");
-            String lastName = row.get("lastName");
-            testSteps.add_def_persons(firstName, lastName);
+            String firstName = row.get("First Name");
+            String lastName = row.get("Last Name");
+            testSteps.add_def_person(firstName, lastName);
 
         }
     }
@@ -110,7 +110,7 @@ public class JBehaveSteps {
 
     }
 
-    @Then("should be popup with message '$message'")
+    @Then("should be popup with message: '$message'")
     public void get_popup_message(String message) {
         testSteps.get_popup_message(message);
     }
@@ -120,12 +120,27 @@ public class JBehaveSteps {
         testSteps.check_database_sate(state);
     }
 
-    @Then("person should be in the database")
-    public void person_should_be() {
-        testSteps.person_should_be();
+    @Then("button '$button' should be disabled")
+    public void button_should_be_disabled(String button) {
+        testSteps.is_button_disabled(button);
     }
-//------------------- *** Assertion Persons *** ----------------------------
 
+    @Then("button '$button' should be enabled")
+    public void button_should_be_enabled(String button) {
+        testSteps.is_button_enabled(button);
+    }
+
+    @Then("count persons on the page should be '$count'")
+    public void count_persons_on_the_page(String count) {
+        testSteps.count_persons_on_the_page(count);
+    }
+
+    @Then("close popup")
+    public void close_popup() {
+        testSteps.close_popup();
+    }
+
+//------------------- *** Assertion Persons *** ----------------------------
     @Then("person with '$parametr' '$value' should display in database")
     public void person_should_display(String parametr, String value) {
         testSteps.person_should_display_in_database(parametr, value);
@@ -150,7 +165,6 @@ public class JBehaveSteps {
     // -------------------------------------------------------------------------
     public List<Map<String, String>> createObjects(ExamplesTable table) {
 
-        System.out.println("START CREATING");
         List<Map<String, String>> listPersons = new ArrayList<Map<String, String>>();
         Map<String, String> mapPersons;
 
@@ -164,7 +178,6 @@ public class JBehaveSteps {
 
             listPersons.add(mapPersons);
         }
-        System.out.println("END CREATING");
         return listPersons;
     }
 

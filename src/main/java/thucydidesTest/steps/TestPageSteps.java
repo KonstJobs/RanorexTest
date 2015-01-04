@@ -1,5 +1,7 @@
 package thucydidesTest.steps;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.steps.ScenarioSteps;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -7,16 +9,13 @@ import org.openqa.selenium.WebDriver;
 import thucydidesTest.clasess.Category;
 import thucydidesTest.clasess.Gender;
 import thucydidesTest.clasess.Person;
-import thucydidesTest.clasess.PersonBuilder;
-import thucydidesTest.clasess.SimplePerson;
-import thucydidesTest.pages.PopupPage;
 import thucydidesTest.pages.TestPage;
 
 public class TestPageSteps extends ScenarioSteps {
 
     private TestPage testPage;
 
-    //-------------------------------------------------------------------------
+    //-------------------------- *** STEPS *** -----------------------------------
     @Step
     public void enter_main_page() {
         testPage.open();
@@ -44,21 +43,15 @@ public class TestPageSteps extends ScenarioSteps {
     }
 
     @Step
-    public void add_persons(String firstName, String lastName) {
-        testPage.addDefaultPerson(firstName, lastName);
-    }
-
-    @Step
-    public void add_def_persons(String firstName, String lastName) {
-        PersonBuilder personBuilder = new PersonBuilder();
-        Person person = personBuilder.createDefPerson(firstName, lastName);
-        //  testPage.addPerson(person);
+    public void add_def_person(String firstName, String lastName) {
+        Person person = new Person(firstName, lastName);
+        testPage.addDefPerson(person);
     }
 
     @Step
     public void add_person_to_database(String firstName, String lastName, Category cat, Gender gen) {
-        SimplePerson person = new SimplePerson(firstName, lastName, cat, gen);
-        testPage.addPerson(person);
+        Person person = new Person(firstName, lastName, cat, gen);
+        testPage.addDefPerson(person);
     }
 
     @Step
@@ -72,17 +65,12 @@ public class TestPageSteps extends ScenarioSteps {
     }
 
     @Step
-    public void test_popup(String message) {
-        WebDriver popupDriver = testPage.switchToPopUp();
-        assertThat("Wrong popup messege",
-                testPage.getPopupMessage(popupDriver).equals(message));
-    }
-
-    @Step
     public void get_popup_message(String message) {
         WebDriver popupDriver = testPage.switchToPopUp();
-        assertThat("Wrong popup messege",
-                testPage.getPopupMessage(popupDriver).equals(message));
+        String popupMessage = testPage.getPopupMessage(popupDriver);
+
+        assertThat("PopupMessge was: " + popupMessage,
+                popupMessage.equals(message));
     }
 
     @Step
@@ -92,20 +80,39 @@ public class TestPageSteps extends ScenarioSteps {
     }
 
     @Step
-    public void person_should_be() {
-        testPage.findPerson(6);
+    public void person_should_display_in_database(String parametr, String value) {
+        assertThat("fucking assertion", testPage.isPersonDisplayInDataBase(parametr, value));
+
     }
 
     @Step
-    public void person_should_display_in_database(String parametr, String value) {
-        assertThat("fucking assertion", testPage.isDisplayInDataBase(parametr, value));
-
-    }
-
     public void persons_should_display_in_database(String firstName, String lastName, Category cat, Gender gen) {
-        SimplePerson person = new SimplePerson(firstName, lastName, cat, gen);
+        Person person = new Person(firstName, lastName, cat, gen);
         assertThat("one more fucking assertion",
                 testPage.comparePersons(person));
     }
 
+    @Step
+    public void is_button_disabled(String button) {
+        assertThat("Button" + button + " is enabled!",
+                testPage.isButtonDisabled(button));
+    }
+
+    @Step
+    public void is_button_enabled(String button) {
+
+        assertThat("Button" + button + " is disabled!",
+                !testPage.isButtonDisabled(button));
+    }
+
+    public void count_persons_on_the_page(String count) {
+        Integer countPersons = testPage.findAllPersonsInDatabase().size();
+        assertThat("Count persons on the page: " + countPersons,
+                count.equals(countPersons.toString()));
+    }
+
+    public void close_popup() {
+        WebDriver popupDriver = testPage.switchToPopUp();
+        testPage.closePopup(popupDriver);
+    }
 }
