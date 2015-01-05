@@ -80,14 +80,20 @@ public class TestPageSteps extends ScenarioSteps {
 
     @Step
     public void person_should_display_in_database(String parametr, String value) {
-        assertThat("fucking assertion", testPage.isPersonDisplayInDataBase(parametr, value));
+        assertThat("Person with " + parametr
+                + " and value " + value
+                + " doesn't display", testPage.isPersonDisplayInDataBase(parametr, value));
 
     }
 
     @Step
     public void person_should_display_in_database(String firstName, String lastName, Category cat, Gender gen) {
         Person person = new Person(firstName, lastName, cat, gen);
-        assertThat("one more fucking assertion",
+        assertThat("Person with first name: " + firstName
+                + ", last name: " + lastName
+                + ", category: " + cat
+                + " and gender: " + gen
+                + " doesn't display",
                 testPage.comparePeople(person));
     }
 
@@ -102,7 +108,7 @@ public class TestPageSteps extends ScenarioSteps {
     }
 
     @Step
-    public void number_of_people_in_database(String number) {
+    public void get_number_of_people_in_database(String number) {
         Integer countPersons = testPage.findAllPeopleInDatabase().size();
         assertThat("Count persons on the page: " + countPersons,
                 number.equals(countPersons.toString()));

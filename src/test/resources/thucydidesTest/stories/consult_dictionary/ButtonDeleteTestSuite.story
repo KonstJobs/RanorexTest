@@ -5,7 +5,7 @@ Then vip count should be '6'
 Then number of people in the database should be '6'
 When user check person:
 |First Name|Last Name|Category|Gender|
-|Sylvester|Stallone|Movie|Male|
+|Andre|Agassi|Sport|Male|
 When user press button 'Delete'
 Then vip count should be '5'
 Then number of people in the database should be '5'

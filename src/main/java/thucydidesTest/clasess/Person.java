@@ -28,7 +28,7 @@ public class Person {
     public Person(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.category = Category.POLITICS;
+        this.category = Category.MOVIE;
         this.gender = Gender.MALE;
     }
 

@@ -51,7 +51,7 @@ public class TestPage extends PageObject {
     private WebElement fieldConnection;
 
     //------------------------  * Methods *  ----------------------------
-    public void addDefPerson(Person person) {
+     public void addDefPerson(Person person) {
         fieldFristName.sendKeys(person.getFirstName());
         fieldLastName.sendKeys(person.getLastName());
         selectCategory(person);
