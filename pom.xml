@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <thucydides.version>0.9.275</thucydides.version>
         <thucydides.jbehave.version>0.9.275</thucydides.jbehave.version>
-        <webdriver.driver>firefox</webdriver.driver>
+        <webdriver.driver>htmlunit</webdriver.driver>
     </properties>
 
     <dependencies>
@@ -70,16 +70,15 @@
                     <systemProperties>
                         <property>
                             <name>webdriver.chrome.driver</name>
-                            <value>${project.basedir}/chromedriver</value>
+                            <value>${project.basedir}/chromedriver.exe</value>
+                        </property>
+                        <property>
+                            <name>webdriver.firefox.profile</name>
+                            <value>D:\FirefoxProfile</value>
                         </property>
                         <property>
                             <name>thucydides.take.screenshots</name>
                             <value>FOR_FAILURES</value>
-                        </property>
-                        <property>
-                            <name>webdriver.firefox.profile</name>
-<!--                            <value>C:/Users/Конст/AppData/Roaming/Mozilla/Firefox/Profiles/tbzg4vfh.Automation</value>-->
-                            <value>D:\FirefoxProfile</value>
                         </property>
                     </systemProperties>
                     <forkMode>perthread</forkMode>

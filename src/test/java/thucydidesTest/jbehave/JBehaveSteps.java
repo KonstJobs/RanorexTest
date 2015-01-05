@@ -39,21 +39,21 @@ public class JBehaveSteps {
         testSteps.press_button_in_popup(button);
     }
 
-    @When("user add person with name '$John'")
-    public void when_user_add_first_name(String word) {
-        testSteps.enter_first_name(word);
+    @When("user add person with name '$name'")
+    public void when_user_add_first_name(String $name) {
+        testSteps.enter_first_name($name);
     }
 
     @When("user {enter|type} first name <firstname>")
     @Alias("user {enter|type} first name '$firsname'")
-    public void enter_first_name(@Named("firstname") String name) {
-        testSteps.enter_first_name(name);
+    public void enter_first_name(@Named("firstname") String firstname) {
+        testSteps.enter_first_name(firstname);
     }
 
     @When("user {enter|type} last name <lastname>")
     @Alias("user {enter|type} last name '$lastname'")
-    public void enter_last_name(@Named("lastname") String name) {
-        testSteps.enter_last_name(name);
+    public void enter_last_name(@Named("lastname") String lastname) {
+        testSteps.enter_last_name(lastname);
     }
 
     @When("user {press|click} {button |} '$button'")
