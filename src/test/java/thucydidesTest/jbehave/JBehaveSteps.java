@@ -13,7 +13,6 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import thucydidesTest.clasess.Category;
 import thucydidesTest.clasess.Gender;
-import thucydidesTest.clasess.Person;
 
 import thucydidesTest.steps.TestPageSteps;
 
@@ -22,13 +21,13 @@ public class JBehaveSteps {
     @Steps
     TestPageSteps testSteps;
 
-    //------------------ ***  @Given *** ---------------------------
+    //------------------ ***  @GIVEN *** ---------------------------
     @Given("the user is on the test page")
     public void user_is_on_the_test_page() {
         testSteps.enter_main_page();
     }
 
-    //------------------ ***  @When *** ---------------------------
+    //------------------ ***  @WHEN *** ---------------------------
     @When("user press button {Disconnect|Connect}")
     public void user_press_button_connection() {
         testSteps.press_button_connection();
@@ -61,15 +60,30 @@ public class JBehaveSteps {
         testSteps.press_button(buttonName);
     }
 
-    @When("user {add|create} persons with category and gender:$table")
+//    @When("user add persons with category and gender:$table")
+//    public void add_def_persons(ExamplesTable table) {
+//        List<Map<String, String>> listPersons = createObjects(table);
+//        for (Map<String, String> listPerson : listPersons) {
+//
+//            String firstName = listPerson.get("First Name");
+//            String lastName = listPerson.get("Last Name");
+//            Category category = Category.valueOf(listPerson.get("Category").toUpperCase());
+//            Gender gender = Gender.valueOf(listPerson.get("Gender").toUpperCase());
+//
+//            testSteps.add_person_to_database(firstName, lastName, category, gender);
+//        }
+//
+//    }
+    
+     @When("user add people to database:$table")
     public void add_def_persons(ExamplesTable table) {
-        List<Map<String, String>> listPersons = createObjects(table);
-        for (Map<String, String> listPerson : listPersons) {
+        List<Map<String, String>> listPeople = getListOfPeople(table);
+        for (Map<String, String> person : listPeople) {
 
-            String firstName = listPerson.get("First Name");
-            String lastName = listPerson.get("Last Name");
-            Category category = Category.valueOf(listPerson.get("Category").toUpperCase());
-            Gender gender = Gender.valueOf(listPerson.get("Gender").toUpperCase());
+            String firstName = person.get("First Name");
+            String lastName = person.get("Last Name");
+            Category category = Category.valueOf(person.get("Category").toUpperCase());
+            Gender gender = Gender.valueOf(person.get("Gender").toUpperCase());
 
             testSteps.add_person_to_database(firstName, lastName, category, gender);
         }
@@ -78,7 +92,7 @@ public class JBehaveSteps {
 
     @When("user {add|create} persons '$count' times with category and gender:$table")
     public void add_a_lot_of_persons(String count, ExamplesTable table) {
-        List<Map<String, String>> listPersons = createObjects(table);
+        List<Map<String, String>> listPersons = getListOfPeople(table);
         for (int i = 0; i < Integer.parseInt(count); i++) {
             for (Map<String, String> listPerson : listPersons) {
 
@@ -103,7 +117,7 @@ public class JBehaveSteps {
         }
     }
 
-    //------------------ ***  @Then *** ---------------------------
+    //------------------ ***  @THEN *** ---------------------------
     @Then("vip count should be '$count'")
     public void vip_count(String count) {
         testSteps.get_vip_count(count);
@@ -149,7 +163,7 @@ public class JBehaveSteps {
     @Then("following persons should display in database:$table")
     public void persons_should_display(ExamplesTable table) {
 
-        List<Map<String, String>> listPersons = createObjects(table);
+        List<Map<String, String>> listPersons = getListOfPeople(table);
         for (Map<String, String> listPerson : listPersons) {
 
             String firstName = listPerson.get("First Name");
@@ -157,13 +171,13 @@ public class JBehaveSteps {
             Category category = Category.valueOf(listPerson.get("Category").toUpperCase());
             Gender gender = Gender.valueOf(listPerson.get("Gender").toUpperCase());
 
-            testSteps.persons_should_display_in_database(firstName, lastName, category, gender);
+            testSteps.person_should_display_in_database(firstName, lastName, category, gender);
         }
 
     }
 
     // -------------------------------------------------------------------------
-    public List<Map<String, String>> createObjects(ExamplesTable table) {
+    public List<Map<String, String>> getListOfPeople(ExamplesTable table) {
 
         List<Map<String, String>> listPersons = new ArrayList<Map<String, String>>();
         Map<String, String> mapPersons;
