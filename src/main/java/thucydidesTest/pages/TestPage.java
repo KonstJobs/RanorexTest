@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,7 +70,7 @@ public class TestPage extends PageObject {
     private void selectGender(Person person) {
 
         String gender = person.getGender().getModifiedGender();
-        find(By.xpath("//input[@value='" + gender + "']")).click();
+        find(By.xpath("//input[@value='" + gender.toLowerCase() + "']")).click();
 
     }
 
@@ -153,7 +154,7 @@ public class TestPage extends PageObject {
     /*---------------------- *** WORK WITH PERSONS *** --------------------*/
     public boolean isPersonDisplayInDataBase(String parametr, String value) {
 
-        List<Map<String, String>> listPersons = findAllPersonsInDatabase();
+        List<Map<String, String>> listPersons = findAllPeopleInDatabase();
 
         for (Map<String, String> allMaps : listPersons) {
             if (allMaps.get(parametr).equals(value)) {
@@ -163,9 +164,27 @@ public class TestPage extends PageObject {
         return false;
     }
 
-    public boolean comparePersons(Person person) {
+    public void checkPerson(Person person) throws NoSuchElementException {
 
-        List<Map<String, String>> listInDatabase = findAllPersonsInDatabase();
+        String firsName = person.getFirstName();
+        String lastName = person.getLastName();
+        String gedner = person.getGender().getModifiedGender();
+        String category = person.getCategory().getModifiedCategory();
+
+        //this large xpath uses to avoid finding the same people in the database
+        String xpath = "//tr[td[text()='" + firsName + "' and position()=2]"
+                + "][td[text()='" + lastName + "' and position()=3]]"
+                + "[td[text()='" + gedner + "' and position()=4]]"
+                + "[td[text()='" + category + "' and position()=5]]"
+                + "/td/input";
+
+        findBy(xpath).click();
+
+    }
+
+    public boolean comparePeople(Person person) {
+
+        List<Map<String, String>> listInDatabase = findAllPeopleInDatabase();
         List<Person> listPersons = new ArrayList<Person>();
 
         for (Map<String, String> listInDatabase1 : listInDatabase) {
@@ -181,7 +200,7 @@ public class TestPage extends PageObject {
         return false;
     }
 
-    public List<Map<String, String>> findAllPersonsInDatabase() {
+    public List<Map<String, String>> findAllPeopleInDatabase() {
 
         List<Map<String, String>> listPersons = new ArrayList<Map<String, String>>();
         Map<String, String> mapPersons;
@@ -204,4 +223,5 @@ public class TestPage extends PageObject {
         }
         return listPersons;
     }
+
 }

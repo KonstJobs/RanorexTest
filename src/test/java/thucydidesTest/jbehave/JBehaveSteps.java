@@ -56,26 +56,18 @@ public class JBehaveSteps {
     }
 
     @When("user {press|click} {button |} '$button'")
-    public void press_button_add(String buttonName) {
+    public void press_button(String buttonName) {
         testSteps.press_button(buttonName);
     }
 
-//    @When("user add persons with category and gender:$table")
-//    public void add_def_persons(ExamplesTable table) {
-//        List<Map<String, String>> listPersons = createObjects(table);
-//        for (Map<String, String> listPerson : listPersons) {
-//
-//            String firstName = listPerson.get("First Name");
-//            String lastName = listPerson.get("Last Name");
-//            Category category = Category.valueOf(listPerson.get("Category").toUpperCase());
-//            Gender gender = Gender.valueOf(listPerson.get("Gender").toUpperCase());
-//
-//            testSteps.add_person_to_database(firstName, lastName, category, gender);
-//        }
-//
-//    }
-    
-     @When("user add people to database:$table")
+    @When("user {press|click} {button |} '$button' $number times")
+    public void press_button_several_times(String buttonName, String number) {
+        for (int i = 1; i <= Integer.parseInt(number); i++) {
+            testSteps.press_button(buttonName);
+        }
+    }
+
+    @When("user add {people|person} to database:$table")
     public void add_def_persons(ExamplesTable table) {
         List<Map<String, String>> listPeople = getListOfPeople(table);
         for (Map<String, String> person : listPeople) {
@@ -117,6 +109,20 @@ public class JBehaveSteps {
         }
     }
 
+    @When("user check person:$table")
+    public void check_person(ExamplesTable table) {
+
+        Map<String, String> map = getListOfPeople(table).get(0);
+
+        String firstName = map.get("First Name");
+        String lastName = map.get("Last Name");
+        Category category = Category.valueOf(map.get("Category").toUpperCase());
+        Gender gender = Gender.valueOf(map.get("Gender").toUpperCase());
+
+        testSteps.check_person(firstName, lastName, category, gender);
+
+    }
+
     //------------------ ***  @THEN *** ---------------------------
     @Then("vip count should be '$count'")
     public void vip_count(String count) {
@@ -144,9 +150,9 @@ public class JBehaveSteps {
         testSteps.is_button_enabled(button);
     }
 
-    @Then("count persons on the page should be '$count'")
-    public void count_persons_on_the_page(String count) {
-        testSteps.count_persons_on_the_page(count);
+    @Then("number of people in the database should be '$number'")
+    public void number_of_people_in_database(String number) {
+        testSteps.number_of_people_in_database(number);
     }
 
     @Then("close popup")

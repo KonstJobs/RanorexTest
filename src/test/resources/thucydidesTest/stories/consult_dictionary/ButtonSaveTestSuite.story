@@ -6,7 +6,7 @@ Then close popup
 
 Scenario: Button 'Save' testing2
 Given the user is on the test page
-When user add persons with category and gender:
+When user add people to database:
 |First Name|Last Name|Category|Gender|
 |alskdf|sfdsd|Movie|Male|
 When user click button 'Save'

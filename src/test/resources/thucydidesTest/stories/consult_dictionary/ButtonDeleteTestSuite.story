@@ -1,20 +1,20 @@
-Scenario: Button 'Delete' testing1
+Scenario: Selected person should be removed from database (1)
 Given the user is on the test page
-When user add persons with category and gender:
+When user click button 'Load'
+Then vip count should be '6'
+Then number of people in the database should be '6'
+When user check person:
 |First Name|Last Name|Category|Gender|
 |Sylvester|Stallone|Movie|Male|
-|Andre|Agassi|sport|male|
-|Arnold|Schwarzenegger|politics|male|
-|Marilyn|Monroe|other|female|
-When user click button 'Delete'
-Then count persons on the page should be '3'
-Then vip count should be '3'
+When user press button 'Delete'
+Then vip count should be '5'
+Then number of people in the database should be '5'
 
-Scenario: Button 'Delete' testing2
+Scenario: Selected person should be removed from database (2)
 Given the user is on the test page
-When user add persons with category and gender:
-|First Name|Last Name|Category|Gender|
-|Sylvester|Stallone|Movie|Male|
-When user click button 'Delete'
-Then count persons on the page should be '0'
+When user click button 'Load'
+Then vip count should be '6'
+Then number of people in the database should be '6'
+When user press button 'Delete' 6 times
 Then vip count should be '0'
+Then number of people in the database should be '0'

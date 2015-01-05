@@ -1,6 +1,6 @@
 Scenario: All added persons should display in database
 Given the user is on the test page
-When user add persons with category and gender:
+When user add people to database:
 |First Name|Last Name|Category|Gender|
 |Bob|Sinclar|Movie|Male|
 |Arnold|Schwarzenegger|Politics|male|

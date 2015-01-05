@@ -1,5 +1,6 @@
 package thucydidesTest.steps;
 
+import java.util.NoSuchElementException;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.steps.ScenarioSteps;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -41,7 +42,6 @@ public class TestPageSteps extends ScenarioSteps {
     }
 
     //-------------------------- *** BUTTONS *** ------------------------
-
     @Step
     public void press_button(String buttonName) {
         testPage.pressButton(buttonName);
@@ -88,13 +88,24 @@ public class TestPageSteps extends ScenarioSteps {
     public void person_should_display_in_database(String firstName, String lastName, Category cat, Gender gen) {
         Person person = new Person(firstName, lastName, cat, gen);
         assertThat("one more fucking assertion",
-                testPage.comparePersons(person));
+                testPage.comparePeople(person));
     }
 
-    public void count_persons_on_the_page(String count) {
-        Integer countPersons = testPage.findAllPersonsInDatabase().size();
+    @Step
+    public void check_person(String firstName, String lastName, Category cat, Gender gen) {
+        Person person = new Person(firstName, lastName, cat, gen);
+        try {
+            testPage.checkPerson(person);
+        } catch (NoSuchElementException ex) {
+            assertThat("PERSON NOT FOUND ", false);
+        }
+    }
+
+    @Step
+    public void number_of_people_in_database(String number) {
+        Integer countPersons = testPage.findAllPeopleInDatabase().size();
         assertThat("Count persons on the page: " + countPersons,
-                count.equals(countPersons.toString()));
+                number.equals(countPersons.toString()));
     }
     //-------------------------- *** POPUP *** ---------------------------
 
@@ -118,4 +129,5 @@ public class TestPageSteps extends ScenarioSteps {
         WebDriver popupDriver = testPage.switchToPopUp();
         testPage.closePopup(popupDriver);
     }
+
 }
