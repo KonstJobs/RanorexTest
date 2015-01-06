@@ -14,7 +14,7 @@
         <thucydides.version>0.9.275</thucydides.version>
         <thucydides.jbehave.version>0.9.275</thucydides.jbehave.version>
         <webdriver.driver>firefox</webdriver.driver>
-        <testname>**/*TestSuite.java</testname>
+        <testname>*</testname>
         <threads>1</threads>
     </properties>
 
@@ -65,7 +65,7 @@
                     <includes>
                         <!--                        <include>**/*Test.java</include>
                         -->                        
-                        <include>${testname}</include><!--
+                        <include>**/${testname}TestSuite.java</include><!--
                         <include>**/When*.java</include>
                         <include>**/*TestSuite.java</include>
                         <include>**/*Story.java</include>-->
