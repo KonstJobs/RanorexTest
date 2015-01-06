@@ -13,7 +13,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <thucydides.version>0.9.275</thucydides.version>
         <thucydides.jbehave.version>0.9.275</thucydides.jbehave.version>
-        <webdriver.driver>htmlunit</webdriver.driver>
+        <webdriver.driver>firefox</webdriver.driver>
+        <testname>**/*TestSuite.java</testname>
+        <threads>1</threads>
     </properties>
 
     <dependencies>
@@ -61,11 +63,12 @@
                 <version>2.17</version>
                 <configuration>
                     <includes>
-                        <include>**/*Test.java</include>
-                        <include>**/Test*.java</include>
+                        <!--                        <include>**/*Test.java</include>
+                        -->                        
+                        <include>${testname}</include><!--
                         <include>**/When*.java</include>
                         <include>**/*TestSuite.java</include>
-                        <include>**/*Story.java</include>
+                        <include>**/*Story.java</include>-->
                     </includes>
                     <systemProperties>
                         <property>
@@ -82,7 +85,7 @@
                         </property>
                     </systemProperties>
                     <forkMode>perthread</forkMode>
-                    <threadCount>1</threadCount>
+                    <threadCount>${threads}</threadCount>
                     <argLine>-Dwebdriver.driver=${webdriver.driver}</argLine>
                 </configuration>
                 <executions>
