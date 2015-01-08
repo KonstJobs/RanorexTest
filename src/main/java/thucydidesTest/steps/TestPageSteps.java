@@ -20,6 +20,9 @@ public class TestPageSteps extends ScenarioSteps {
         testPage.open();
     }
 
+    public void test1() {
+    }
+
     @Step
     public void enter_first_name(String name) {
         testPage.addFirstName(name);
