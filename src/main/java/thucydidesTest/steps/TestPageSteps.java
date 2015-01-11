@@ -4,7 +4,6 @@ import static com.thoughtworks.selenium.SeleneseTestBase.*;
 import java.util.NoSuchElementException;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.steps.ScenarioSteps;
-import static org.hamcrest.MatcherAssert.assertThat;
 import org.openqa.selenium.WebDriver;
 import thucydidesTest.clasess.Category;
 import thucydidesTest.clasess.Gender;
@@ -32,7 +31,7 @@ public class TestPageSteps extends ScenarioSteps {
     }
 
     @Step
-    public void assert_value_of_the_counter_VIP_count(String count) {
+    public void check_value_of_the_counter_VIP_count(String count) {
         String number = testPage.getValueOfTheCounterVIPCount();
         assertEquals(count, number);
     }

@@ -118,7 +118,7 @@ public class JBehaveSteps {
     //------------------ ***  @THEN *** ---------------------------
     @Then("vip count should be '$count'")
     public void vip_count(String count) {
-        testSteps.assert_value_of_the_counter_VIP_count(count);
+        testSteps.check_value_of_the_counter_VIP_count(count);
 
     }
 
