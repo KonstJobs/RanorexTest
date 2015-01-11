@@ -74,7 +74,7 @@ public class TestPage extends PageObject {
 
     }
 
-    public String getVIPcount() {
+    public String getValueOfTheCounterVIPCount() {
 
         Pattern p = Pattern.compile("\\d+");
         String text = fieldVipCount.getText();
@@ -151,20 +151,20 @@ public class TestPage extends PageObject {
         getDriver().switchTo().window(parentHandler);
     }
 
-    /*---------------------- *** WORK WITH PERSONS *** --------------------*/
+    /*---------------------- *** WORK WITH VIPS *** --------------------*/
     public boolean isPersonDisplayInDataBase(String parametr, String value) {
 
-        List<Map<String, String>> listPersons = findAllPeopleInDatabase();
+        List<Map<String, String>> listOfVips = findAllPeopleInDatabase();
 
-        for (Map<String, String> allMaps : listPersons) {
-            if (allMaps.get(parametr).equals(value)) {
+        for (Map<String, String> vip : listOfVips) {
+            if (vip.get(parametr).equals(value)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void checkPerson(Person person) throws NoSuchElementException {
+    public void selectPerson(Person person) throws NoSuchElementException {
 
         String firsName = person.getFirstName();
         String lastName = person.getLastName();
@@ -185,14 +185,14 @@ public class TestPage extends PageObject {
     public boolean comparePeople(Person person) {
 
         List<Map<String, String>> listInDatabase = findAllPeopleInDatabase();
-        List<Person> listPersons = new ArrayList<Person>();
+        List<Person> listOfVips = new ArrayList<Person>();
 
         for (Map<String, String> listInDatabase1 : listInDatabase) {
-            listPersons.add(new Person(listInDatabase1));
+            listOfVips.add(new Person(listInDatabase1));
         }
 
-        for (Person listPerson : listPersons) {
-            if (listPerson.equals(person)) {
+        for (Person vip : listOfVips) {
+            if (vip.equals(person)) {
                 return true;
             }
         }
@@ -202,8 +202,8 @@ public class TestPage extends PageObject {
 
     public List<Map<String, String>> findAllPeopleInDatabase() {
 
-        List<Map<String, String>> listPersons = new ArrayList<Map<String, String>>();
-        Map<String, String> mapPersons;
+        List<Map<String, String>> listOfVips = new ArrayList<Map<String, String>>();
+        Map<String, String> vip;
 
         List<WebElementFacade> allVips = findAll(By.
                 xpath("//tr[td/input[@id='VIP']]"));
@@ -212,16 +212,16 @@ public class TestPage extends PageObject {
             List<WebElementFacade> elem = findAll(By.
                     xpath("//tr[td/input[@id='VIP']][" + i + "]/td[text()]"));
 
-            mapPersons = new HashMap<String, String>();
+            vip = new HashMap<String, String>();
 
-            mapPersons.put("First Name", elem.get(0).getText());
-            mapPersons.put("Last Name", elem.get(1).getText());
-            mapPersons.put("Gender", elem.get(2).getText());
-            mapPersons.put("Category", elem.get(3).getText());
+            vip.put("First Name", elem.get(0).getText());
+            vip.put("Last Name", elem.get(1).getText());
+            vip.put("Gender", elem.get(2).getText());
+            vip.put("Category", elem.get(3).getText());
 
-            listPersons.add(mapPersons);
+            listOfVips.add(vip);
         }
-        return listPersons;
+        return listOfVips;
     }
 
 }

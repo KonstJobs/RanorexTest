@@ -1,3 +1,7 @@
+Narrative:
+This test suite check vips loading to database
+depending on the sate of database
+
 Scenario: Button 'Disconnect' testing
 Given the user is on the test page
 When user press button Disconnect

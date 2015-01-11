@@ -111,14 +111,14 @@ public class JBehaveSteps {
         Category category = Category.valueOf(map.get("Category").toUpperCase());
         Gender gender = Gender.valueOf(map.get("Gender").toUpperCase());
 
-        testSteps.check_person(firstName, lastName, category, gender);
+        testSteps.select_person(firstName, lastName, category, gender);
 
     }
 
     //------------------ ***  @THEN *** ---------------------------
     @Then("vip count should be '$count'")
     public void vip_count(String count) {
-        testSteps.get_vip_count(count);
+        testSteps.assert_value_of_the_counter_VIP_count(count);
 
     }
 
@@ -130,7 +130,7 @@ public class JBehaveSteps {
 
     @Then("should be popup with message: '$message'")
     public void get_popup_message(String message) {
-        testSteps.get_popup_message(message);
+        testSteps.check_popup_message(message);
     }
 
     @Then("state of database should be '$state'")
@@ -140,20 +140,20 @@ public class JBehaveSteps {
 
     @Then("button '$button' should be disabled")
     public void button_should_be_disabled(String button) {
-        testSteps.is_button_disabled(button);
+        testSteps.assert_that_button_is_disabled(button);
     }
 
     @Then("button '$button' should be enabled")
     public void button_should_be_enabled(String button) {
-        testSteps.is_button_enabled(button);
+        testSteps.assert_that_button_is_enabled(button);
     }
 
     @Then("number of people in the database should be '$number'")
     public void number_of_people_in_database(String number) {
-        testSteps.get_number_of_people_in_database(number);
+        testSteps.check_number_of_people_in_database(number);
     }
 
-    @Then("close popup")
+    @Then("popup is closed")
     public void close_popup() {
         testSteps.close_popup();
     }
@@ -161,7 +161,7 @@ public class JBehaveSteps {
 //------------------- *** Assertion Persons *** ----------------------------
     @Then("person with '$parametr' '$value' should display in database")
     public void person_should_display(String parametr, String value) {
-        testSteps.person_should_display_in_database(parametr, value);
+        testSteps.assert_that_person_is_displayed_in_database(parametr, value);
     }
 
     @Then("{people|person} should display in database:$table")
@@ -175,7 +175,7 @@ public class JBehaveSteps {
             Category category = Category.valueOf(person.get("Category").toUpperCase());
             Gender gender = Gender.valueOf(person.get("Gender").toUpperCase());
 
-            testSteps.person_should_display_in_database(firstName, lastName, category, gender);
+            testSteps.assert_that_person_is_displayed_in_database(firstName, lastName, category, gender);
         }
 
     }

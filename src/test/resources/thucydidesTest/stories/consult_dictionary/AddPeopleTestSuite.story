@@ -1,3 +1,6 @@
+Narrative:
+This test suite tests fields on the page First Name, Last Name and button 'Add'
+
 Scenario: Adding person with first and last name
 Given the user is on the test page
 When user enter first name 'John'
@@ -38,7 +41,7 @@ Given the user is on the test page
 When user enter first name ''
 When user click button 'Add'
 Then should be popup with message: 'Please specify 'First Name' value'
-Then close popup
+Then popup is closed
 
 Scenario: Adding person with empty last name
 Given the user is on the test page
@@ -46,7 +49,7 @@ When user enter first name 'Bob'
 When user enter last name ''
 When user click button 'Add'
 Then should be popup with message: 'Please specify 'Last Name' value'
-Then close popup
+Then popup is closed
 
 Scenario: Adding person with empty first and last name
 Given the user is on the test page
@@ -54,7 +57,7 @@ When user enter first name ''
 When user enter last name ''
 When user click button 'Add'
 Then should be popup with message: 'Please specify 'First Name' value'
-Then close popup
+Then popup is closed
 
 Scenario: Adding person with long first and last name
 Given the user is on the test page

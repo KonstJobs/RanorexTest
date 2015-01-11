@@ -1,10 +1,7 @@
-Scenario: Button 'Load' testing 1
-Given the user is on the test page
-When user click button 'Load'
-Then person with 'First Name' 'Sylvester' should display in database
-Then person with 'Last Name' 'Stallone' should display in database
+Narrative:
+User can load vips from database by button 'Load'
 
-Scenario: Button 'Load' testing 2
+Scenario: Button 'Load' should loads 6 vips from database
 Given the user is on the test page
 When user click button 'Load'
 Then people should display in database:
@@ -17,7 +14,8 @@ Then people should display in database:
 |Marilyn|Monroe|Other|Female|
 Then vip count should be '6'
 
-Scenario: Button 'Load' testing 3
+Scenario: Vips that have been downloaded via button 'Load'
+shouldn't delete previous vips in database
 Given the user is on the test page
 When user add person:
 |First Name|Last Name|
@@ -31,4 +29,4 @@ Then people should display in database:
 |Andre|Agassi|Sport|Male|
 |Arnold|Schwarzenegger|Politics|Male|
 |Marilyn|Monroe|Other|Female|
-Then vip count should be '6'
+Then vip count should be '7'

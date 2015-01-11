@@ -1,5 +1,6 @@
 package thucydidesTest.steps;
 
+import static com.thoughtworks.selenium.SeleneseTestBase.*;
 import java.util.NoSuchElementException;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.steps.ScenarioSteps;
@@ -20,9 +21,6 @@ public class TestPageSteps extends ScenarioSteps {
         testPage.open();
     }
 
-    public void test1() {
-    }
-
     @Step
     public void enter_first_name(String name) {
         testPage.addFirstName(name);
@@ -34,14 +32,14 @@ public class TestPageSteps extends ScenarioSteps {
     }
 
     @Step
-    public void get_vip_count(String count) {
-        String number = testPage.getVIPcount();
-        assertThat("Actual number of vips: " + number + "", number.equals(count));
+    public void assert_value_of_the_counter_VIP_count(String count) {
+        String number = testPage.getValueOfTheCounterVIPCount();
+        assertEquals(count, number);
     }
 
     @Step
     public void check_database_sate(String state) {
-        assertThat("Connection fail", testPage.getConnectionSate(state).equalsIgnoreCase(state));
+        assertEquals(state, testPage.getConnectionSate(state));
     }
 
     //-------------------------- *** BUTTONS *** ------------------------
@@ -56,15 +54,13 @@ public class TestPageSteps extends ScenarioSteps {
     }
 
     @Step
-    public void is_button_disabled(String button) {
-        assertThat("Button" + button + " is enabled!",
-                testPage.isButtonDisabled(button));
+    public void assert_that_button_is_disabled(String button) {
+        assertTrue("Button " + button + " is enabled!", testPage.isButtonDisabled(button));
     }
 
     @Step
-    public void is_button_enabled(String button) {
-
-        assertThat("Button" + button + " is disabled!",
+    public void assert_that_button_is_enabled(String button) {
+        assertTrue("Button" + button + " is disabled!",
                 !testPage.isButtonDisabled(button));
     }
 
@@ -82,49 +78,43 @@ public class TestPageSteps extends ScenarioSteps {
     }
 
     @Step
-    public void person_should_display_in_database(String parametr, String value) {
-        assertThat("Person with " + parametr
+    public void assert_that_person_is_displayed_in_database(String parametr, String value) {
+        assertTrue("Person with " + parametr
                 + " and value " + value
                 + " doesn't display", testPage.isPersonDisplayInDataBase(parametr, value));
 
     }
 
     @Step
-    public void person_should_display_in_database(String firstName, String lastName, Category cat, Gender gen) {
+    public void assert_that_person_is_displayed_in_database(String firstName, String lastName, Category cat, Gender gen) {
         Person person = new Person(firstName, lastName, cat, gen);
-        assertThat("Person with first name: " + firstName
-                + ", last name: " + lastName
-                + ", category: " + cat
-                + " and gender: " + gen
-                + " doesn't display",
+        assertTrue("Person: " + person + " doesn't display",
                 testPage.comparePeople(person));
     }
 
     @Step
-    public void check_person(String firstName, String lastName, Category cat, Gender gen) {
+    public void select_person(String firstName, String lastName, Category cat, Gender gen) {
         Person person = new Person(firstName, lastName, cat, gen);
         try {
-            testPage.checkPerson(person);
+            testPage.selectPerson(person);
         } catch (NoSuchElementException ex) {
-            assertThat("PERSON NOT FOUND ", false);
+            assertTrue("PERSON NOT FOUND ", false);
         }
     }
 
     @Step
-    public void get_number_of_people_in_database(String number) {
+    public void check_number_of_people_in_database(String number) {
         Integer countPersons = testPage.findAllPeopleInDatabase().size();
-        assertThat("Count persons on the page: " + countPersons,
-                number.equals(countPersons.toString()));
+        assertEquals(number, countPersons.toString());
     }
     //-------------------------- *** POPUP *** ---------------------------
 
     @Step
-    public void get_popup_message(String message) {
+    public void check_popup_message(String message) {
         WebDriver popupDriver = testPage.switchToPopUp();
         String popupMessage = testPage.getPopupMessage(popupDriver);
 
-        assertThat("PopupMessge was: " + popupMessage,
-                popupMessage.equals(message));
+        assertEquals(popupMessage, message);
     }
 
     @Step

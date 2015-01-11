@@ -1,4 +1,7 @@
-Scenario: Selected person should be removed from database (1)
+Narrative:
+Button 'Delete' should delete selected person in the database
+
+Scenario: Selected person should be removed from database
 Given the user is on the test page
 When user click button 'Load'
 Then vip count should be '6'
@@ -10,7 +13,8 @@ When user press button 'Delete'
 Then vip count should be '5'
 Then number of people in the database should be '5'
 
-Scenario: Selected person should be removed from database (2)
+Scenario: User can delete all the people from data base
+clicking button 'Delete'
 Given the user is on the test page
 When user click button 'Load'
 Then vip count should be '6'

@@ -95,4 +95,13 @@ public class Person {
         return hash;
     }
 
+    @Override
+    public String toString() {
+
+        return "first name: " + firstName
+                + ", last name: " + lastName
+                + ", category: " + category
+                + " and gender: " + gender;
+    }
+
 }
